@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title%} SemRate - {{product.name}} {% endblock %}
+
+{% block content %}
+
+<script type="text/javascript">
+
+function createParameter() {
+  //$('parameterform').serialize()
+  data = $("#parameterform").serialize();
+  debug('test')
+  $.post("/ajax_createparameter", data, function(data) { debug(data); } );
+}
+
+
+</script>
+<h2> {{ product.name }} </h2>
+
+
+
+{% for param in parameters %}
+<div class='parameter'>
+{{param}}
+</div>
+{% endfor %}
+
+
+<h3> Create Parameter Form </h3>
+<form id='parameterform'>
+{% csrf_token %}
+<table class='bordered'>
+{{ parameterform.as_table }}
+</table>
+
+<a href='javascript:createParameter()'> Submit </a>
+
+</form>
+
+
+{% endblock %}
+
