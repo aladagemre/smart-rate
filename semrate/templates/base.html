@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title> {% block title %} SemRate {% endblock %}</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel='stylesheet' type='text/css' href='/site_media/style.css'/>
+<script type="text/javascript" src="/site_media/jquery-1.7.min.js"></script>
+<script type="text/javascript">
+
+function debug(s) {
+  $('#debugdiv').append('<p class="debug_p">' + s + '</p>')
+};
+
+function init() {
+  debug('hello world');
+};
+
+$(init);
+
+</script>
+</head>
+<body>
+{% block body %}
+
+<div id='header'>
+<a class='menuitem' href='/'>home</a>
+<a class='menuitem' href='/newproduct'>newproduct</a>
+</div>
+
+
+
+
+<div id='content'>
+{% block content %}
+{% endblock %}
+</div>
+
+<div id='debugdiv'>
+</div>
+
+{% endblock %}
+</body>
+</html>
