@@ -4,7 +4,8 @@
 
 <ul>
 {% for product in products %}
-<li><a href='{{ product.suburi }}'> {{ product.name }} </a></li>
+<li><a href='product/{{ product.suburi }}'> {{ product.name }} </a></li>
+
 {% endfor %}
 </ul>
 
