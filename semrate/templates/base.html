@@ -7,6 +7,23 @@
 <script type="text/javascript" src="/site_media/jquery-1.7.min.js"></script>
 <script type="text/javascript">
 
+function items(obj) {
+  s = '';
+  for (var x in obj) {
+    s = s + x + ' : ' + obj[x] + '\n'
+  };
+  return s;
+}
+
+function formToDict(form) {
+  var values = {};
+  $.each($(form).serializeArray(), function(i, field) {
+      values[field.name] = field.value;
+  });
+  return values;
+};
+
+
 function debug(s) {
   $('#debugdiv').append('<p class="debug_p">' + s + '</p>')
 };
