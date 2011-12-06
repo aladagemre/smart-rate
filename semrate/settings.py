@@ -1,5 +1,7 @@
 # Django settings for semrate project.
 import os
+from fbsettings import FACEBOOK_APP_ID, FACEBOOK_APP_SECRET
+
 
 PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
  
@@ -94,6 +96,17 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.app_directories.Loader',
 #     'django.template.loaders.eggs.Loader',
 )
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+        'django.contrib.auth.context_processors.auth',
+        'django_facebook.context_processors.facebook',
+)
+
+AUTHENTICATION_BACKENDS = (
+        'django.contrib.auth.context_processors.auth',
+        'django_facebook.auth_backends.FacebookBackend',
+)
+
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
