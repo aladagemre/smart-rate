@@ -2,6 +2,7 @@ body {
   #background-color: #aac;
   #background-color: #7b0f32;
   background-color: #4b7f92;
+  font-family: Verdana;
 }
 
 #header {
@@ -74,6 +75,7 @@ body {
   -moz-border-radius: 10px;
   border: 3px #6cf solid;
 
+  display: inline-block;
 }
 
 
@@ -126,8 +128,83 @@ a:hover {
   border-collapse: collapse;
 }
 
-.summary_table th, .summary_table td {
-  border: 1px black solid;
-  padding: 8px;
+.st_bar {
+  border-top: 1px black solid;
+  padding: 2px;
 }
 
+.summary_curtain th, .summary_curtain td, {
+  border-top: none;
+  padding: 2px;
+}
+
+.summary_table th {
+  text-align: left;
+}
+
+.tag_neg {
+  white-space: nowrap;
+  background-color: #faa;
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  border: 1px #a44 solid;
+  padding: 0px 2px;
+  display: inline-block;
+}
+
+.tag_pos {
+  white-space: nowrap;
+  background-color: #afa;
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  border: 1px #4a4 solid;
+  padding: 0px 2px;
+}
+
+/* SUMMARY TABLE COLUMNS */
+.st_c1 { width: 150px; }
+.st_c2 { width: 100px; }
+.st_c3 { width: 200px; }
+.st_c4 { width: 200px; }
+
+/* for some reasons it does not work without the "th." prefix */
+th.st_c1, td.st_c2, td.st_c3, td.st_c4 { 
+  visibility: hidden;
+  border-bottom: 1px black solid;
+}
+
+.taginput {
+  border: 1px #ccc solid;
+  border-radius: 2px;
+  -moz-border-radius: 2px;
+  width: 100px;
+}
+.tagsubmit {
+  border: 1px #ccc solid;
+  border-radius: 2px;
+  -moz-border-radius: 2px;
+  width: 20px;
+}
+
+.scoresubmit {
+  border: 1px #ccc solid;
+  border-radius: 2px;
+  -moz-border-radius: 2px;
+  width: 26px;
+}
+
+.scoreselect {
+  border: 1px #ccc solid;
+  border-radius: 2px;
+  -moz-border-radius: 2px;
+  width: 45px;
+}
+
+.tinybtn {
+  font-size: 7pt;
+  font-weight: normal;
+}
+
+#addParameterDiv {
+  display: none;
+}

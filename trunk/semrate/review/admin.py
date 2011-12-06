@@ -10,7 +10,7 @@ class ParameterAdmin(admin.ModelAdmin):
 admin.site.register(Parameter, ParameterAdmin)
 
 class TagAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('id','parameter','tagtext')
 admin.site.register(Tag, TagAdmin)
 
 

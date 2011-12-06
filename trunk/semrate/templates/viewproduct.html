@@ -8,29 +8,31 @@
 function createParameter() {
   //$('parameterform').serialize()
   data = $("#parameterform").serialize();
-  debug('test')
+  debug('test');
   $.post("/ajax_createparameter", data, function(data) { debug(data); } );
 }
 
-function addTag(e) {
-  s = dir(e);
-  if (e.which == 13) {
-      var target = $(e.target);
-      var val = target.val()
-      $('#antenna_taglist_neg').css('background-color','green');
-      //target.css('background-color', 'blue');
-      //debug('foo: ' + target.val() );
-      
-  }
-};
 
 //http://stackoverflow.com/questions/6179215/jquery-determine-name-id-of-form-on-submit
 function submit_tag(e) {
   debug('#'+e.target.id);  
-  var s = $('#'+e.target.id).serialize();
+  var form = $('#'+e.target.id);
+  var s = form.serialize();
   $.post("/ajax_createtag", s, function(data) { debug(data); } );
   taglist = '#'+e.target.id.substr(0,e.target.id.length)
-  var s = $().serialize();
+
+  var formDict = formToDict(form);
+
+  s = form.attr('id')
+  name = s.substr(0,s.length-4); // + '_taglist_neg';
+  charge = s.substr(s.length-3, s.length); // + '_taglist_neg';
+
+  var val = formDict.tagtext;
+  $('#'+name+'_taglist_' + charge).append(" <span class='tag_"+charge+"'>" + val + "</span>");
+
+  //http://stackoverflow.com/questions/680241/resetting-a-multi-stage-form-with-jquery
+  $(':input',form).not(':button, :submit, :reset, :hidden').val('');
+
   return false;
 }
 
@@ -40,73 +42,81 @@ function localinit() {
   debug('localinit');
 }
 
+function toggleCurtain(name) {
+  //$('#'+name+'_summary_curtain').css('background-color','red');
+  $('#'+name+'_summary_curtain').toggle();
+}
+
+function toggleAddParameter() {
+  $('#addParameterDiv').toggle();
+};
+
 $(localinit);
 </script>
-<br/>
-<br/>
+<h2> {{ product.name }} </h2>
+
 <table class='summary_table'>
 {% for param in parameters %}
-<tr>
-  <th> {{ param.name }} </th>
-  <td> 4.3 </td>
-  <td> negative </td>
-  <td> positive </td>
+<tr id='{{ param.sname }}_summary_row'>
+  <th class='st_bar'> 
+    {{ param.name }} <br/>
+    <a class='tinybtn' href="javascript:toggleCurtain('{{ param.sname }}');"> [do rating] </a> 
+  </th>
+  <td class='st_bar'> 4.3 </td>
+  <td  id='{{param.sname}}_taglist_neg' class='st_bar'> {% for tag in param.get_tags_neg %} <span class='tag_neg'>{{tag.tagtext}}</span> {% endfor %} </td>
+  <td  id='{{param.sname}}_taglist_pos' class='st_bar'> {% for tag in param.get_tags_pos %} <span class='tag_pos'>{{tag.tagtext}}</span> {% endfor %} </td>
+</tr>
+<tr style='display: none;' id='{{ param.sname }}_summary_curtain' class='summary_curtain'>
+  <th class='st_curtain'>  </th>
+  <td class='st_curtain'>
+    <form id='{{param.sname}}_rate'>
+      <select class='scoreselect' name='score'>
+        <option value='none' selected='selected'>---</option>
+        <option value='1'>1</option>
+        <option value='2'>2</option>
+        <option value='3'>3</option>
+        <option value='4'>4</option>
+        <option value='5'>5</option>
+      </select>
+      <input class='scoresubmit' type='submit' value='Ok' name='submit'>
+    </form>
+  </td>
+  <td class='st_curtain' style='white-space: nowrap;'>
+        <form id='{{param.sname}}_neg' class='no_submit'>
+          {% csrf_token %}
+          {{ tagform.tagtext }}
+          <input type='hidden' id='id_parameter' name='parameter' value='{{param.id}}'/>
+          <input type='hidden' id='id_charge' name='charge' value='-1'/>
+          <input class='tagsubmit' type='submit' value='+' name='submit'>
+        </form>
+  </td>
+  <td class='st_curtain' style='white-space: nowrap;'>
+        <form id='{{param.sname}}_pos' class='no_submit'>
+          {% csrf_token %}
+          {{ tagform.tagtext }}
+          <input type='hidden' id='id_parameter' name='parameter' value='{{param.id}}'/>
+          <input type='hidden' id='id_charge' name='charge' value='1'/>
+          <input class='tagsubmit' type='submit' value='+' name='submit'>
+        </form>
+  </td>
 </tr>
 {% endfor %}
+<tr>
+  <th class='st_c1'> </th>
+  <td class='st_c2'> </td>
+  <td class='st_c3'> </td>
+  <td class='st_c4'> </td>
+</tr>
 </table>
 
 <br/>
 <br/>
 
 
-     <h2> {{ product.name }} </h2>
-{% for param in parameters %}
-  <div class='parameter'>
-  <h3 style='margin-left: 10px;'>{{param.name}}</h3>
+<a class='tinybtn' href='javascript:toggleAddParameter();'>[add parameter]</a>
 
-  <table class='tagstable'>
-    <tr>
-      <th>Negative</th>
-      <th>Positive</th>
-    </tr>
-    <tr>
-      <td>
-        <form id='{{param.name}}_neg' class='no_submit'>
-          {% csrf_token %}
-          {{ tagform.tagtext }}
-          <input type='hidden' id='id_parameter' name='parameter' value='{{param.id}}'/>
-          <input type='hidden' id='id_charge' name='charge' value='-1'/>
-          <input type='submit' value='submit' name='submit' style='display: none;'>
-        </form>
-      </td>
-      <td>
-        <form id='{{param.name}}_pos' class='no_submit'>
-          {% csrf_token %}
-          {{ tagform.tagtext }}
-          <input type='hidden' id='id_parameter' name='parameter' value='{{param.id}}'/>
-          <input type='hidden' id='id_charge' name='charge' value='1'/>
-          <input type='submit' value='submit' name='submit' style='display: none;'>
-        </form>
-      </td>
-    </tr>
-    <tr>
-      <td id='{{param.name}}_taglist_neg'>
-        {% for tag in param.get_tags_neg %}
-        <p class='neg_p'> {{tag}} </p>
-        {% endfor %}
-      </td>
-      <td id='{{param.name}}_taglist_pos'>
-        {% for tag in param.get_tags_pos %}
-        <p class='pos_p'> {{tag}} </p>
-        {% endfor %}
-      </td>
-    </tr>
-  </table>
-  </div>
-{% endfor %}
-
-<div class='parameter'>
-<h3> Create a new Parameter </h3>
+<div id='addParameterDiv'>
+<h2> Create a new Parameter </h2>
 <form id='parameterform'>
 {% csrf_token %}
 <p>Name:<br/>

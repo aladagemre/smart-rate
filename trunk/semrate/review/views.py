@@ -47,6 +47,8 @@ def viewproduct(request, path):
 
 def ajax_createparameter(request):
   parameterform = ParameterForm(request.POST)
+  stuff = dir(parameterform)
+  errors = parameterform.errors
   parameterform.save()
   return HttpResponse('success');
 
