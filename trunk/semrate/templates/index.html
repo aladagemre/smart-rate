@@ -22,7 +22,7 @@
 <center>
 
 <p><a href="/accounts/register">Register here</a></p>
-
+<p><a href="/accounts/login">Login here</a></p>
 <div style="width:300px; background-color: white; border: solid blue; ">
 <form action="{% url facebook_connect %}?facebook_login=1" method="post">
 	<input type="hidden" value="{{ request.path }}" name="next" />
