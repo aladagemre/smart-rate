@@ -12,29 +12,113 @@ function createParameter() {
   $.post("/ajax_createparameter", data, function(data) { debug(data); } );
 }
 
+function addTag(e) {
+  s = dir(e);
+  if (e.which == 13) {
+      var target = $(e.target);
+      var val = target.val()
+      $('#antenna_taglist_neg').css('background-color','green');
+      //target.css('background-color', 'blue');
+      //debug('foo: ' + target.val() );
+      
+  }
+};
 
+//http://stackoverflow.com/questions/6179215/jquery-determine-name-id-of-form-on-submit
+function submit_tag(e) {
+  debug('#'+e.target.id);  
+  var s = $('#'+e.target.id).serialize();
+  $.post("/ajax_createtag", s, function(data) { debug(data); } );
+  taglist = '#'+e.target.id.substr(0,e.target.id.length)
+  var s = $().serialize();
+  return false;
+}
+
+function localinit() {
+  //$('.negative_input').keypress(addTag);
+  $('.no_submit').submit(submit_tag);
+  debug('localinit');
+}
+
+$(localinit);
 </script>
-<h2> {{ product.name }} </h2>
-
-
-
+<br/>
+<br/>
+<table class='summary_table'>
 {% for param in parameters %}
-<div class='parameter'>
-{{param}}
-</div>
+<tr>
+  <th> {{ param.name }} </th>
+  <td> 4.3 </td>
+  <td> negative </td>
+  <td> positive </td>
+</tr>
 {% endfor %}
-
-
-<h3> Create Parameter Form </h3>
-<form id='parameterform'>
-{% csrf_token %}
-<table class='bordered'>
-{{ parameterform.as_table }}
 </table>
 
-<a href='javascript:createParameter()'> Submit </a>
+<br/>
+<br/>
 
+
+     <h2> {{ product.name }} </h2>
+{% for param in parameters %}
+  <div class='parameter'>
+  <h3 style='margin-left: 10px;'>{{param.name}}</h3>
+
+  <table class='tagstable'>
+    <tr>
+      <th>Negative</th>
+      <th>Positive</th>
+    </tr>
+    <tr>
+      <td>
+        <form id='{{param.name}}_neg' class='no_submit'>
+          {% csrf_token %}
+          {{ tagform.tagtext }}
+          <input type='hidden' id='id_parameter' name='parameter' value='{{param.id}}'/>
+          <input type='hidden' id='id_charge' name='charge' value='-1'/>
+          <input type='submit' value='submit' name='submit' style='display: none;'>
+        </form>
+      </td>
+      <td>
+        <form id='{{param.name}}_pos' class='no_submit'>
+          {% csrf_token %}
+          {{ tagform.tagtext }}
+          <input type='hidden' id='id_parameter' name='parameter' value='{{param.id}}'/>
+          <input type='hidden' id='id_charge' name='charge' value='1'/>
+          <input type='submit' value='submit' name='submit' style='display: none;'>
+        </form>
+      </td>
+    </tr>
+    <tr>
+      <td id='{{param.name}}_taglist_neg'>
+        {% for tag in param.get_tags_neg %}
+        <p class='neg_p'> {{tag}} </p>
+        {% endfor %}
+      </td>
+      <td id='{{param.name}}_taglist_pos'>
+        {% for tag in param.get_tags_pos %}
+        <p class='pos_p'> {{tag}} </p>
+        {% endfor %}
+      </td>
+    </tr>
+  </table>
+  </div>
+{% endfor %}
+
+<div class='parameter'>
+<h3> Create a new Parameter </h3>
+<form id='parameterform'>
+{% csrf_token %}
+<p>Name:<br/>
+{{ parameterform.name }}<br/>
+Description:<br/>{{ parameterform.description }}
+<input name='product' type='hidden' value='{{product.id}}'/><br/>
+<a href='javascript:createParameter()' class='btn'> Submit </a>
+</p>
 </form>
+</div>
+
+
 
 
 {% endblock %}

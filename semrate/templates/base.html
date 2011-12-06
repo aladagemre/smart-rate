@@ -15,6 +15,14 @@ function init() {
   debug('hello world');
 };
 
+function dir(obj) {
+  s = '';
+  for(var key in obj) {
+      s = s + ', ' + key + '\n';
+  }
+  return s;
+}
+
 $(init);
 
 </script>
@@ -23,12 +31,10 @@ $(init);
 {% block body %}
 
 <div id='header'>
+<h1 class='header_heading'> SemRate </h1>
 <a class='menuitem' href='/'>home</a>
 <a class='menuitem' href='/newproduct'>newproduct</a>
 </div>
-
-
-
 
 <div id='content'>
 {% block content %}
