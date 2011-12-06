@@ -1,10 +1,60 @@
 body {
-  background-color: #aac;
+  #background-color: #aac;
+  #background-color: #7b0f32;
+  background-color: #4b7f92;
 }
 
 #header {
-  background-color: red;
-  height: 100px;
+  position: relative;
+  left: 200px;
+  width: 700px;
+  background-color: black;
+  height: 110px;
+  width: 700px;
+  border-radius: 10px;
+  -moz-border-radius: 10px;
+  border: 3px #6cf solid;
+}
+
+.header_heading {
+  color: #6cf; 
+  #color: #4b7f92; 
+  text-align: center; 
+  margin: 4px; 
+  font-family: Verdana; 
+  font-size: 30pt;
+}
+
+.menuitem {
+  margin: 10px;
+  padding: 5px;
+  background-color: #6cf;
+  border: 1px black solid;
+  display: inline-block;
+  color: black;
+  text-decoration: none;
+  border-radius: 3px;
+  -moz-border-radius: 5px;
+}
+
+.btn {
+  margin: 2px;
+  padding: 3px;
+  background-color: #6cf;
+  border: 1px black solid;
+  display: inline-block;
+  color: black;
+  text-decoration: none;
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+}
+
+.menuitem:visited { color: black; }
+
+#content {
+  position: relative;
+  left: 200px;
+  width: 700px;
 }
 
 .bordered td, .bordered th {
@@ -18,21 +68,66 @@ body {
 .parameter {
   background-color: white;
   margin: 15px;
-  border: 1px black solid;
-  width: 500px;
+
+  background-color: #4b7f92;
+  border-radius: 10px;
+  -moz-border-radius: 10px;
+  border: 3px #6cf solid;
+
 }
 
-.menuitem {
-  margin: 10px;
-  background-color: white;
-  border: 1px black solid;
-}
 
 #debugdiv {
+  display: none;
   background-color: #ccc;
+  
 }
 
 .debug_p {
   border-bottom: 1px black solid;
   margin: 10px;
 }
+
+.neg_p, .pos_p {
+  margin: 3px;
+}
+
+.tagstable th, .tagstable td {
+  border: 1px black solid;
+}
+
+.tagstable {
+  border-collapse: collapse;
+  margin: 10px;
+}
+
+.negative_input {
+  background-color: #fcc;
+}
+
+.positive_input {
+  background-color: #cfc;
+}
+
+a {
+  color: black;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #f44;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.summary_table {
+  border-collapse: collapse;
+}
+
+.summary_table th, .summary_table td {
+  border: 1px black solid;
+  padding: 8px;
+}
+
