@@ -4,7 +4,7 @@ from fbsettings import FACEBOOK_APP_ID, FACEBOOK_APP_SECRET
 
 
 PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
- 
+ACCOUNT_ACTIVATION_DAYS = 2
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -138,6 +138,8 @@ INSTALLED_APPS = (
     #'django.contrib.admindocs',
     
     'review',
+    'registration',
+    'member',
 )
 
 # A sample logging configuration. The only tangible logging
