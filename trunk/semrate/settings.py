@@ -7,6 +7,7 @@ PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
 ACCOUNT_ACTIVATION_DAYS = 2
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 1025
+AUTH_PROFILE_MODULE = "member.UserProfile"
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
