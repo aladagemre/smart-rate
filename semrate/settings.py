@@ -5,6 +5,9 @@ from fbsettings import FACEBOOK_APP_ID, FACEBOOK_APP_SECRET
 
 PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
 ACCOUNT_ACTIVATION_DAYS = 2
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 1025
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
