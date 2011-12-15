@@ -19,6 +19,10 @@ class Parameter(models.Model):
   sname = models.CharField(max_length=32) 
   description = models.TextField()
   product = models.ForeignKey(Product)
+  score_total = models.IntegerField(default=0)
+  score_count = models.IntegerField(default=0)
+  
+  
   def __str__(self):
     return '%s - %s' % (self.product.name, self.name)
   def get_tags(self):
@@ -27,6 +31,11 @@ class Parameter(models.Model):
     return Tag.objects.filter(parameter = self, charge=-1)
   def get_tags_pos(self):
     return Tag.objects.filter(parameter = self, charge=1)
+  def get_score(self):
+	if not self.score_count:
+		return 0
+	return "%.2f" % (float(self.score_total) / self.score_count)
+	
   def clean_fields(self, exclude=[]):
     self.name = self.name.strip()
     self.sname = self.name.replace(' ','_').lower()

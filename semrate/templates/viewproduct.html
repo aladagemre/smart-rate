@@ -62,14 +62,15 @@ $(localinit);
     {{ param.name }} <br/>
     <a class='tinybtn' href="javascript:toggleCurtain('{{ param.sname }}');"> [Rate!] </a> 
   </th>
-  <td class='st_bar'> 4.3 </td>
+  <td class='st_bar' id='{{ param.sname }}_score'> {{ param.get_score }} </td>
   <td  id='{{param.sname}}_taglist_neg' class='st_bar'> {% for tag in param.get_tags_neg %} <span class='tag_neg'>{{tag.tagtext}}</span> {% endfor %} </td>
   <td  id='{{param.sname}}_taglist_pos' class='st_bar'> {% for tag in param.get_tags_pos %} <span class='tag_pos'>{{tag.tagtext}}</span> {% endfor %} </td>
 </tr>
 <tr style='display: none;' id='{{ param.sname }}_summary_curtain' class='summary_curtain'>
   <th class='st_curtain'>  </th>
   <td class='st_curtain'>
-    <form id='{{param.sname}}_rate'>
+    <form id='{{param.sname}}_rate' action='/rate_parameter'>
+	  <input type="hidden" name='parameter_id' value='{{param.id}}'/>
       <select class='scoreselect' name='score'>
         <option value='none' selected='selected'>---</option>
         <option value='1'>1</option>
