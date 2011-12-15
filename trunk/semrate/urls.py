@@ -28,6 +28,6 @@ urlpatterns = patterns('',
     url(r'^ajax_createparameter$', 'review.views.ajax_createparameter'),
     url(r'^ajax_createtag$', 'review.views.ajax_createtag'),
     
-    url(r'^product/(?P<path>.*)/$', 'review.views.viewproduct', {}),
+    url(r'^products/(?P<path>.*)/$', 'review.views.viewproduct', {}),
 
 )

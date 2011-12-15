@@ -18,7 +18,7 @@ def newproduct(request):
     productform = ProductForm(request.POST)
     if productform.is_valid():
       p = productform.save()
-      return HttpResponseRedirect('/%s' % p.suburi)
+      return HttpResponseRedirect('/products/%s' % p.suburi)
     
   else:
     productform = ProductForm()
