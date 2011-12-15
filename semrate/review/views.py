@@ -3,7 +3,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext
 from django.template.loader import get_template
 from django.core.context_processors import csrf
-
+from django.db.models import Q
+from django.shortcuts import render_to_response
 from models import Product, ProductForm, Parameter, ParameterForm, Tag, TagForm
 
 def index(request):
@@ -12,6 +13,22 @@ def index(request):
   c['request'] = request
   c['products'] = Product.objects.all()
   return  HttpResponse(t.render(c))
+
+def searchproduct(request):
+  query = request.GET.get('q', '')
+  if query:
+    qset = (
+      Q(name__icontains=query) |
+      Q(description__icontains=query)
+    )
+    results = Product.objects.filter(qset).distinct()
+  else:
+    results = []
+  
+  return render_to_response("search.html", {
+    "results": results,
+    "query": query
+  })
 
 def newproduct(request):
   if 'submit' in request.POST:

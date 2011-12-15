@@ -1,7 +1,14 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
+<center>
+	<div style="border: solid black 1px;">
+		<form action="/search">
+			<label>Search for a product:<br/><input type="text" name="q"/></label>
+			<input type="submit" value="Search"/>
+		</form>
+	</div>
+</center>
 <ul>
 {% for product in products %}
 <li><a href='products/{{ product.suburi }}'> {{ product.name }} </a></li>
