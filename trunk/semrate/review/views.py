@@ -4,7 +4,7 @@ from django.template import RequestContext
 from django.template.loader import get_template
 from django.core.context_processors import csrf
 from django.db.models import Q
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, redirect
 from models import Product, ProductForm, Parameter, ParameterForm, Tag, TagForm
 
 def index(request):
@@ -61,13 +61,23 @@ def viewproduct(request, path):
   c.update(csrf(request))
   return  HttpResponse(t.render(c))
   
-
+def rate_parameter(request):
+  score = int ( request.GET['score'] )
+  param_id = int ( request.GET['parameter_id'] )
+  parameter = Parameter.objects.get(id=param_id)
+  parameter.score_total += score
+  parameter.score_count += 1
+  parameter.save()
+  product = parameter.product
+  
+  return redirect('/products/%s' % product.suburi)
+  
 def ajax_createparameter(request):
   parameterform = ParameterForm(request.POST)
   stuff = dir(parameterform)
   errors = parameterform.errors
   parameterform.save()
-  return HttpResponse('success');
+  return HttpResponse('success')
 
 def ajax_createtag(request):
   tagform = TagForm(request.POST)
