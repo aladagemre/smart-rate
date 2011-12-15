@@ -60,7 +60,7 @@ $(localinit);
 <tr id='{{ param.sname }}_summary_row'>
   <th class='st_bar'> 
     {{ param.name }} <br/>
-    <a class='tinybtn' href="javascript:toggleCurtain('{{ param.sname }}');"> [do rating] </a> 
+    <a class='tinybtn' href="javascript:toggleCurtain('{{ param.sname }}');"> [Rate!] </a> 
   </th>
   <td class='st_bar'> 4.3 </td>
   <td  id='{{param.sname}}_taglist_neg' class='st_bar'> {% for tag in param.get_tags_neg %} <span class='tag_neg'>{{tag.tagtext}}</span> {% endfor %} </td>
