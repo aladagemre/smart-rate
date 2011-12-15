@@ -5,8 +5,13 @@ from fbsettings import FACEBOOK_APP_ID, FACEBOOK_APP_SECRET
 
 PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
 ACCOUNT_ACTIVATION_DAYS = 2
+DEFAULT_FROM_EMAIL = 'registration@pythonkursu.com'
+LOGIN_REDIRECT_URL = '/'
+REGISTRATION_BACKEND = 'registration.backends.default.DefaultBackend'
+
+
 EMAIL_HOST = 'localhost'
-EMAIL_PORT = 1025
+EMAIL_PORT = 25
 AUTH_PROFILE_MODULE = "member.UserProfile"
 
 DEBUG = True
