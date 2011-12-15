@@ -107,7 +107,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 AUTHENTICATION_BACKENDS = (
-        'django.contrib.auth.context_processors.auth',
         'django_facebook.auth_backends.FacebookBackend',
 )
 
