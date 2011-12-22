@@ -6,7 +6,7 @@ class ProductAdmin(admin.ModelAdmin):
 admin.site.register(Product, ProductAdmin)
 
 class ParameterAdmin(admin.ModelAdmin):
-    list_display = ('id','product','name')
+    list_display = ('id','category_parameter', 'product')
 admin.site.register(Parameter, ParameterAdmin)
 
 class TagAdmin(admin.ModelAdmin):

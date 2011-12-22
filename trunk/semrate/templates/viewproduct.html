@@ -8,6 +8,7 @@
 function createParameter() {
   //$('parameterform').serialize()
   data = $("#parameterform").serialize();
+  alert(data);
   debug('test');
   $.post("/ajax_createparameter", data, function(data) { debug(data); } );
 }
@@ -57,9 +58,10 @@ $(localinit);
 
 <table class='summary_table'>
 {% for param in parameters %}
+
 <tr id='{{ param.sname }}_summary_row'>
   <th class='st_bar'> 
-    {{ param.name }} <br/>
+    {{ param.category_parameter.name }} <br/>
     <a class='tinybtn' href="javascript:toggleCurtain('{{ param.sname }}');"> [Rate!] </a> 
   </th>
   <td class='st_bar' id='{{ param.sname }}_score'> {{ param.get_score }} </td>
@@ -118,13 +120,15 @@ $(localinit);
 
 <div id='addParameterDiv'>
 <h2> Create a new Parameter </h2>
-<form id='parameterform'>
+<form id='parameterform' action='/create_parameter' method='post'>
 {% csrf_token %}
 <p>Name:<br/>
 {{ parameterform.name }}<br/>
-Description:<br/>{{ parameterform.description }}
+<input name='category' type='hidden' value='{{product.category.id}}'/><br/>
 <input name='product' type='hidden' value='{{product.id}}'/><br/>
-<a href='javascript:createParameter()' class='btn'> Submit </a>
+
+<!--<a href='javascript:createParameter()' class='btn'> Submit </a>-->
+<input type="submit" value="Create"/>
 </p>
 </form>
 </div>

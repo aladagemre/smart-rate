@@ -1,11 +1,28 @@
 from django.db import models
 from django import forms
 import urllib
+from django.template.defaultfilters import slugify
 
+class Category(models.Model):
+	"""Category for the products"""
+	name = models.CharField(max_length=20, unique=True)
+	slug = models.SlugField()
+
+	def __str__(self):
+		return self.name		
+        
+
+class CategoryParameter(models.Model):
+	"""This is the abstract category parameter like Screen that belongs to all items from that category."""
+	name = models.CharField(max_length=30)
+	category = models.ForeignKey(Category)
+	
 class Product(models.Model):
   suburi = models.CharField(max_length=32, unique=True)
   name = models.CharField(max_length=32, unique=True)
   description = models.TextField()
+  category = models.ForeignKey(Category)
+  
   def clean_fields(self, exclude=[]):
     self.name = self.name.strip()
     self.suburi = urllib.quote(self.name.replace(' ','_').lower())
@@ -13,18 +30,19 @@ class Product(models.Model):
     return self.name
 
 class Parameter(models.Model):
-  name = models.CharField(max_length=32)
+  #name = models.CharField(max_length=32)
   # "simple name", 
   #the name with _ and lowercase, used for ids and stuff
   sname = models.CharField(max_length=32) 
-  description = models.TextField()
+  #description = models.TextField()
+  category_parameter = models.ForeignKey(CategoryParameter)
   product = models.ForeignKey(Product)
   score_total = models.IntegerField(default=0)
   score_count = models.IntegerField(default=0)
   
   
   def __str__(self):
-    return '%s - %s' % (self.product.name, self.name)
+    return '%s - %s' % (self.product.name, self.category_parameter.name)
   def get_tags(self):
     return Tag.objects.filter(parameter = self)
   def get_tags_neg(self):
@@ -37,8 +55,8 @@ class Parameter(models.Model):
 	return "%.2f" % (float(self.score_total) / self.score_count)
 	
   def clean_fields(self, exclude=[]):
-    self.name = self.name.strip()
-    self.sname = self.name.replace(' ','_').lower()
+    self.category_parameter.name = self.category_parameter.name.strip()
+    self.sname = self.category_parameter.name.replace(' ','_').lower()
 
 class Tag(models.Model):
   tagtext = models.CharField(max_length=32)
@@ -52,13 +70,15 @@ class ProductForm(forms.ModelForm):
     model = Product
     exclude = ['suburi',]
 
-class ParameterForm(forms.ModelForm):
+class CategoryParameterForm(forms.ModelForm):
   class Meta:
-    model = Parameter
-    exclude = ('sname',)
+    model = CategoryParameter
+    #exclude = ('sname',)
     #fields = ('name','description')
+    #fields = ('name', 'category')
     # I dont get it, when I exclude sname, I also can't use name parameterform.name in the template
-  description = forms.CharField(widget=forms.Textarea(attrs={'cols': 25, 'rows': 2}))
+  #description = forms.CharField(widget=forms.Textarea(attrs={'cols': 25, 'rows': 2}))
+  
   
 class TagForm(forms.ModelForm):
   class Meta:
@@ -66,7 +86,9 @@ class TagForm(forms.ModelForm):
   #tagtext = forms.TextField(widget=forms.TextInput(attrs={'class':'taginput'}))
   tagtext = forms.CharField(widget=forms.TextInput(attrs={'class':'taginput', 'value':''}))
 
-
+class CategoryForm(forms.ModelForm):
+	class Meta:
+		model = Category
 
 # Create your models here.
 

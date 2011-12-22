@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+  {% if products %}
+    <h2>Products in Category {{category}}</h2>
+      <ul>
+      {% for product in products %}
+        <li><a href="/products/{{product.suburi}}">{{ product|escape }}</a></l1>
+      {% endfor %}
+      </ul>
+  {% else %}
+     <p>No products found for category {{category}}</p>
+    
+  {% endif %}
+
+
+{% endblock %}
+
