@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2> Create Category</h2>
+
+<form action='/newcategory' method='post'>
+{% csrf_token %}
+<label>Category Name<input type="text" name="name"></label>
+<input type='submit' name='submit' value='submit'/>
+</form>
+
+
+
+{% endblock %}
+
