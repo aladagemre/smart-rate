@@ -62,6 +62,11 @@ $(init);
 <a class='menuitem' href='/newproduct'>Create Product</a>
 <a class='menuitem' href='/newcategory'>Create Category</a>
 <a class='menuitem' href='/categories'>List Categories</a>
+
+{% if user.is_authenticated %}
+	<a style="color:white" href="/messages/inbox">Inbox{% if messages_inbox_count %}{{ messages_inbox_count }} {% endif %}</a>
+{% endif %}
+
 </div>
 
 <div id='content'>
