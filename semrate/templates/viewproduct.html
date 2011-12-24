@@ -20,6 +20,11 @@ function submit_tag(e) {
   var form = $('#'+e.target.id);
   var s = form.serialize();
   var result = $.post("/ajax_createtag", s, function(data) { debug(data);} );
+  
+  if (result.isRejected()){
+	alert("You have already given this tag.");
+	return false;
+  }
   taglist = '#'+e.target.id.substr(0,e.target.id.length)
 
   var formDict = formToDict(form);

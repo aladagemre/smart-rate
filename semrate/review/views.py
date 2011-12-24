@@ -110,6 +110,11 @@ def create_parameter(request):
 
 
 def ajax_createtag(request):
+  tagtext = request.POST['tagtext']
+  tags_existing = Tag.objects.filter(tagtext=tagtext, author=request.user)
+  if tags_existing:
+	  return HttpResponse('failure')
+	  
   d = copy.deepcopy(request.POST)
   if request.user.is_authenticated():
     d['author'] = request.user
