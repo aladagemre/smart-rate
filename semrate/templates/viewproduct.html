@@ -64,7 +64,7 @@ $(localinit);
     {{ param.category_parameter.name }} <br/>
     <a class='tinybtn' href="javascript:toggleCurtain('{{ param.sname }}');"> [Rate!] </a> 
   </th>
-  <td class='st_bar' id='{{ param.sname }}_score'> {{ param.get_score }} </td>
+  <td class='st_bar' id='{{ param.sname }}_score'> {{ param.get_score }} (by {{ param.score_count}}) </td>
   <td  id='{{param.sname}}_taglist_neg' class='st_bar'> {% for tag in param.get_tags_neg %} <span class='tag_neg'>{{tag.tagtext}}</span> {% endfor %} </td>
   <td  id='{{param.sname}}_taglist_pos' class='st_bar'> {% for tag in param.get_tags_pos %} <span class='tag_pos'>{{tag.tagtext}}</span> {% endfor %} </td>
 </tr>
