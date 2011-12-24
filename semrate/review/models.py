@@ -2,6 +2,7 @@ from django.db import models
 from django import forms
 import urllib
 from django.template.defaultfilters import slugify
+from member.models import UserProfile
 
 class Category(models.Model):
 	"""Category for the products"""
@@ -62,6 +63,8 @@ class Tag(models.Model):
   tagtext = models.CharField(max_length=32)
   charge = models.IntegerField()
   parameter = models.ForeignKey(Parameter)
+  author = models.ForeignKey(UserProfile)
+  
   def __str__(self):
     return self.tagtext
 
