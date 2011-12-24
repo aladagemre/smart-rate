@@ -52,23 +52,35 @@ def newproduct(request):
 def viewproduct(request, path):
   product = Product.objects.get(suburi=path)
   parameters = Parameter.objects.filter(product=product)
-
+  # get abstract category parameter of each parameter. (like screen of iphone -> screen)
   parameter_c_values = set(map(lambda p: p.category_parameter, parameters))
+  # get abstract category parameter of this type of product (cell phone)
   category_parameters = set(CategoryParameter.objects.filter(category=product.category))
   
+  # see if we have any missing feature for iphone.
   lacking_c_parameters = category_parameters - parameter_c_values
   
+  # if we have any missing parameter(feature) for iphone then add it.
+  # for example after creating iphone, you created samsung and added new features to samsung. now you want iphone to have those features too.
+  # so lets add those missing features:
   
   if lacking_c_parameters:
-    new_parameters = []
+    # for each missing feature
     for c_param in lacking_c_parameters:
       slug = slugify(c_param.name)
       p = Parameter(sname=slug, category_parameter=c_param, product=product, score_total=0, score_count=0)
       p.save()
-  
+    
+    # now get the updated parameter list for iphone. 
     parameters = Parameter.objects.filter(product=product)
 
-	  
+  score_total = 0
+  score_count = 0
+  for parameter in parameters:
+    score_total += parameter.score_total
+    score_count += parameter.score_count
+  overall_score = score_total / float(score_count)
+  
   t = get_template('viewproduct.html')
   c = RequestContext(request,{})
   c['request'] = request
@@ -76,6 +88,7 @@ def viewproduct(request, path):
   c['parameters'] = parameters
   c['parameterform'] = CategoryParameterForm()
   c['tagform'] = TagForm()
+  c['overall_score'] = overall_score
   c.update(csrf(request))
   return  HttpResponse(t.render(c))
   
