@@ -20,10 +20,10 @@ function submit_tag(e) {
   debug('#'+e.target.id);  
   var form = $('#'+e.target.id);
   var s = form.serialize();
-  var result = $.post("/ajax_createtag", s, function(data) { debug(data);} );
+  var success = false;
+  var result = $.post("/ajax_createtag", s, function(data) { if (data == "success") {success = true; }} );
   //alert(dir(result));
-  
-  if (result.isRejected()){
+  if (!success){
 	alert("You have already given this tag.");
 	return false;
   }
@@ -92,8 +92,7 @@ $(localinit);
     </form>
   </td>
   <td class='st_curtain' style='white-space: nowrap;'>
-        <form id='{{param.sname}}_neg' class='no_submit'>
-        <!-- action="/ajax_createtag" method="post"-->
+        <form id='{{param.sname}}_neg' class='no_submit'> <!--2'  action="/ajax_createtag" method="post">-->
           {% csrf_token %}
           {{ tagform.tagtext }}
           <input type='hidden' id='id_parameter' name='parameter' value='{{param.id}}'/>
