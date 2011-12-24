@@ -10,10 +10,28 @@ import copy
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import AnonymousUser
 def index(request):
+  recent_tags = Tag.objects.order_by('date')[::-1]
+  recent_products = map(lambda tag: tag.parameter.product, recent_tags)
+  recent_authors = map(lambda tag: tag.author.user.username, recent_tags)
+  recent_dates = map(lambda tag: tag.date, recent_tags)
+  
+  product_set = []
+  author_set = []
+  date_set = []
+  suburi_set = []
+  for i, product in enumerate(recent_products):
+    if product not in product_set:
+      product_set.append(product)
+      author_set.append(recent_authors[i])
+      date_set.append(recent_dates[i])
+
+  recent_pair = zip(product_set, author_set, date_set)
+
   t = get_template('index.html')
   c = RequestContext(request,{})
   c['request'] = request
   c['products'] = Product.objects.all()
+  c['recent_pair'] = recent_pair
   return  HttpResponse(t.render(c))
 
 def searchproduct(request):
