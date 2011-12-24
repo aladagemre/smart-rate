@@ -61,7 +61,8 @@ function toggleAddParameter() {
 
 $(localinit);
 </script>
-<h2> {{ product.name }} </h2>
+<h2>{{ product.name }}</h2>
+<p><tiny>Overall Score: {{ overall_score }}</tiny></p>
 
 <table class='summary_table'>
 {% for param in parameters %}
