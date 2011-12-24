@@ -79,7 +79,10 @@ def viewproduct(request, path):
   for parameter in parameters:
     score_total += parameter.score_total
     score_count += parameter.score_count
-  overall_score = score_total / float(score_count)
+  if not score_count:
+    overall_score = 0
+  else:
+    overall_score = score_total / float(score_count)
   
   t = get_template('viewproduct.html')
   c = RequestContext(request,{})
