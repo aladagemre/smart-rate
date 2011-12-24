@@ -23,7 +23,7 @@
 	<h3>Recent Ratings</h3>
 	<ul>
 		{% for product, author, date in recent_pair %}
-		<li><a href='products/{{ product.suburi }}'>{{product}}</a> by <a href="/profiles/{{author}}">{{author}}</a> on {{date}}</li>
+		<li><a href='products/{{ product.suburi }}'>{{product}}</a> by <a href="/profile/{{author}}">{{author}}</a> on {{date}}</li>
 		{% endfor %}
 	</ul>
 	</div>
