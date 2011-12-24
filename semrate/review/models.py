@@ -3,6 +3,7 @@ from django import forms
 import urllib
 from django.template.defaultfilters import slugify
 from member.models import UserProfile
+from django.db.models import Count
 
 class Category(models.Model):
 	"""Category for the products"""
@@ -47,14 +48,20 @@ class Parameter(models.Model):
   def get_tags(self):
     return Tag.objects.filter(parameter = self)
   def get_tags_neg(self):
-    return Tag.objects.filter(parameter = self, charge=-1)
+    #return Tag.objects.filter(parameter = self, charge=-1)
+    return Tag.objects.filter(parameter=self, charge=-1).values('tagtext').order_by().annotate(Count('tagtext'))
+    
   def get_tags_pos(self):
-    return Tag.objects.filter(parameter = self, charge=1)
+    #return Tag.objects.filter(parameter = self, charge=1)
+    return Tag.objects.filter(parameter=self, charge=1).values('tagtext').order_by().annotate(Count('tagtext'))
   def get_score(self):
 	if not self.score_count:
 		return 0
 	return "%.2f" % (float(self.score_total) / self.score_count)
 	
+	
+  
+
   def clean_fields(self, exclude=[]):
     self.category_parameter.name = self.category_parameter.name.strip()
     self.sname = self.category_parameter.name.replace(' ','_').lower()
