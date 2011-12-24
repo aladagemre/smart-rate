@@ -109,7 +109,7 @@ TEMPLATE_LOADERS = (
 TEMPLATE_CONTEXT_PROCESSORS = (
         'django.contrib.auth.context_processors.auth',
         'django_facebook.context_processors.facebook',
-        'messages.context_processors.inbox',
+        'django_messages.context_processors.inbox',
 )
 
 AUTHENTICATION_BACKENDS = (
