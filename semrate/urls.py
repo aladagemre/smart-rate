@@ -18,7 +18,7 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^facebook/', include('django_facebook.urls')),    
     url(r'^accounts/', include('registration.backends.default.urls')),
-    
+    url(r'^messages/', include('django_messages.urls')),
     url(r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': os.path.join(settings.PROJECT_PATH,'site_media') }),
     
     url(r'^newproduct$', 'review.views.newproduct'),
