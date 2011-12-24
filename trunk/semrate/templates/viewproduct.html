@@ -19,7 +19,7 @@ function submit_tag(e) {
   debug('#'+e.target.id);  
   var form = $('#'+e.target.id);
   var s = form.serialize();
-  $.post("/ajax_createtag", s, function(data) { debug(data); } );
+  var result = $.post("/ajax_createtag", s, function(data) { debug(data);} );
   taglist = '#'+e.target.id.substr(0,e.target.id.length)
 
   var formDict = formToDict(form);
@@ -90,7 +90,7 @@ $(localinit);
           {{ tagform.tagtext }}
           <input type='hidden' id='id_parameter' name='parameter' value='{{param.id}}'/>
           <input type='hidden' id='id_charge' name='charge' value='-1'/>
-          <input class='tagsubmit' type='submit' value='+' name='submit'>
+          <input class='tagsubmit' type='submit' value='+' name='submit'/>
         </form>
   </td>
   <td class='st_curtain' style='white-space: nowrap;'>
@@ -114,7 +114,6 @@ $(localinit);
 
 <br/>
 <br/>
-
 
 <a class='tinybtn' href='javascript:toggleAddParameter();'>[add parameter]</a>
 

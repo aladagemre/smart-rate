@@ -110,13 +110,20 @@ def create_parameter(request):
 
 
 def ajax_createtag(request):
-  tagform = TagForm(request.POST)
+  d = copy.deepcopy(request.POST)
+  if request.user.is_authenticated():
+    d['author'] = request.user
+  else:
+    d['author'] = 1
+
+  tagform = TagForm(d)
   #tag = tagform.save(commit=False)
   #tag.parameter = Parameter.objects.get(name=request.POST['parametername'])
   #tag.parameter = Parameter.objects.get(name='monitor')
   #tagform.parameter = 2 #Parameter.objects.all()[0]
   #tagform.charge = 1 #Parameter.objects.all()[0]
   tagform.save()
+  #raise
   return HttpResponse('success')
 
 
