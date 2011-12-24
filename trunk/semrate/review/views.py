@@ -118,7 +118,7 @@ def ajax_createtag(request):
 
   d = copy.deepcopy(request.POST)
   if request.user.is_authenticated():
-    d['author'] = request.user
+    d['author'] = request.user.id
   else:
     d['author'] = 1
 
