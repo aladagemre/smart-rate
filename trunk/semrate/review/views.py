@@ -8,7 +8,7 @@ from django.shortcuts import render_to_response, redirect
 from models import * #Product, ProductForm, Parameter, Category, CategoryParameter, CategoryParameterForm, Tag, TagForm
 import copy
 from django.template.defaultfilters import slugify
-
+from django.contrib.auth.models import AnonymousUser
 def index(request):
   t = get_template('index.html')
   c = RequestContext(request,{})
@@ -111,10 +111,11 @@ def create_parameter(request):
 
 def ajax_createtag(request):
   tagtext = request.POST['tagtext']
-  tags_existing = Tag.objects.filter(tagtext=tagtext, author=request.user)
-  if tags_existing:
-	  return HttpResponse('failure')
-	  
+  if type(request.user) is not AnonymousUser:
+    tags_existing = Tag.objects.filter(tagtext=tagtext, author=request.user)
+    if tags_existing:
+      return HttpResponse('failure')
+
   d = copy.deepcopy(request.POST)
   if request.user.is_authenticated():
     d['author'] = request.user
