@@ -9,6 +9,9 @@ from models import * #Product, ProductForm, Parameter, Category, CategoryParamet
 import copy
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import AnonymousUser
+from django.db.models import F
+
+
 def index(request):
   recent_tags = Tag.objects.order_by('date')[::-1]
   recent_products = map(lambda tag: tag.parameter.product, recent_tags)
@@ -49,6 +52,40 @@ def searchproduct(request):
     "results": results,
     "query": query
   })
+
+def advanced_search(request):
+	category=request.GET.get('category')
+	categories = Category.objects.all()
+	if category:
+		parameters = CategoryParameter.objects.filter(category__name=category)
+		for c in categories:
+			if c.name == category:
+				c.selected = True
+			
+		d = { 'categories': categories, 'parameters': parameters, 'category': category }
+	else:
+		d = { 'categories': categories }
+	
+	abstract_parameter = request.GET.get('parameter')
+	min_rating = request.GET.get('min')
+	max_rating = request.GET.get('max')
+	if abstract_parameter and min_rating and max_rating:
+		qset = (
+		Q(category__name=category) &
+		Q(parameter__category_parameter__name=abstract_parameter) &
+		Q(parameter__score_total__gte=F('parameter__score_count')*float(min_rating)) &
+		Q(parameter__score_total__lte=F('parameter__score_count')*float(max_rating)) 
+		)
+		results = Product.objects.filter(qset).distinct()		
+		d['results']=results
+		d['min'] = min_rating
+		d['max'] = max_rating
+		d['parameter'] = abstract_parameter
+		
+		
+		
+	return render_to_response("advanced_search.html",d)
+		
 
 def newproduct(request):
   if 'submit' in request.POST:

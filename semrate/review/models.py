@@ -19,6 +19,9 @@ class CategoryParameter(models.Model):
 	name = models.CharField(max_length=30)
 	category = models.ForeignKey(Category)
 	
+	def __str__(self):
+		return self.name
+	
 class Product(models.Model):
   suburi = models.CharField(max_length=32, unique=True)
   name = models.CharField(max_length=32, unique=True)
@@ -58,7 +61,9 @@ class Parameter(models.Model):
 	if not self.score_count:
 		return 0
 	return "%.2f" % (float(self.score_total) / self.score_count)
-	
+  
+  @property
+  def score(self): return self.get_score()
 	
   
 
