@@ -21,6 +21,8 @@ urlpatterns = patterns('',
     url(r'^messages/', include('django_messages.urls')),
     url(r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': os.path.join(settings.PROJECT_PATH,'site_media') }),
     
+    
+    url(r'^advanced_search$','review.views.advanced_search'),
     url(r'^newproduct$', 'review.views.newproduct'),
 	url(r'^newcategory$', 'review.views.newcategory'),
 	url(r'^categories$', 'review.views.categories'),
