@@ -1,3 +1,9 @@
+/*
+COLORS:
+
+6cf, turkis, the color of the writing in the heading
+*/
+
 body {
   #background-color: #aac;
   #background-color: #7b0f32;
@@ -27,7 +33,7 @@ body {
 }
 
 .menuitem {
-  margin: 10px;
+  margin: 0px 10px 10px 10px;
   padding: 5px;
   background-color: #6cf;
   border: 1px black solid;
@@ -117,7 +123,7 @@ a {
 }
 
 a:visited {
-  color: #f44;
+  color: #400;
 }
 
 a:hover {
@@ -131,6 +137,7 @@ a:hover {
 .st_bar {
   border-top: 1px black solid;
   padding: 2px;
+  vertical-align: top;
 }
 
 .summary_curtain th, .summary_curtain td, {
@@ -150,6 +157,7 @@ a:hover {
   border: 1px #a44 solid;
   padding: 0px 2px;
   display: inline-block;
+  font-size: 9pt;
 }
 
 .tag_pos {
@@ -159,6 +167,8 @@ a:hover {
   -moz-border-radius: 4px;
   border: 1px #4a4 solid;
   padding: 0px 2px;
+  display: inline-block;
+  font-size: 9pt;
 }
 
 /* SUMMARY TABLE COLUMNS */
@@ -207,4 +217,46 @@ th.st_c1, td.st_c2, td.st_c3, td.st_c4 {
 
 #addParameterDiv {
   display: none;
+}
+
+#searchdiv {
+  width: 100%;
+}
+
+.discrete_link, .discrete_link:visited, .discrete_link:active, .discrete_link:hover {
+  #font-size: 8pt;
+  font-weight: normal;
+  color: black;
+  
+}
+
+#searchformtable td {
+  padding: 0px;
+  text-align: center;
+}
+
+#headertable {
+  color: #6cf;
+  font-size: 8pt;
+}
+
+#headertable td {
+  padding: 0px;
+}
+
+
+#small_login_form input {
+  width: 75px;
+  border: 1px black solid;
+  font-size: 9pt;
+  margin: 0px;
+}
+
+#spacing_div {
+  margin: 40px;
+}
+
+th {
+  font-weight: normal;
+  text-align: left;
 }

@@ -199,6 +199,10 @@ def ajax_createtag(request):
   #tag.parameter = Parameter.objects.get(name='monitor')
   #tagform.parameter = 2 #Parameter.objects.all()[0]
   #tagform.charge = 1 #Parameter.objects.all()[0]
+  user = request.user
+  ty = type(user)
+  Tag.objects.filter(author=request.user)
+  
   tagform.save()
   #raise
   return HttpResponse('success')
@@ -214,7 +218,6 @@ def newcategory(request):
 		if categoryform.is_valid():
 			c = categoryform.save()
 			return HttpResponseRedirect('/categories')
-
 	else:
 		categoryform = CategoryForm()
 	
@@ -238,4 +241,20 @@ def category(request, slug):
 		'category': category,
 		'products': products,
 	})
-	
+
+
+import django.contrib.auth
+from django.contrib.auth import authenticate
+from django.views.decorators.csrf import csrf_exempt
+
+
+@csrf_exempt
+def login(request):
+  username = request.POST['username']
+  password = request.POST['password']
+  path = request.POST['path']
+  user = authenticate(username=username, password=password)
+  print user
+  if user is not None:
+    django.contrib.auth.login(request, user)
+  return HttpResponseRedirect(path)

@@ -17,6 +17,7 @@ class Category(models.Model):
 class CategoryParameter(models.Model):
 	"""This is the abstract category parameter like Screen that belongs to all items from that category."""
 	name = models.CharField(max_length=30)
+	slug = models.SlugField()
 	category = models.ForeignKey(Category)
 	
 	def __str__(self):

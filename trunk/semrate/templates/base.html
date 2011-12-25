@@ -57,7 +57,22 @@ $(init);
 
 
 <div id='header'>
-<h1 class='header_heading'> SemRate </h1>
+<table id='headertable'>
+  <tr>
+	<td style='width: 150px;'></td>
+	<td style='width: 400px;'><h1 class='header_heading'> SemRate </h1></td>
+	<td style='width: 150px;' style='vertical-align: top;'>
+		{% if user.is_authenticated %}
+	  <span style=' margin-left: 20px;'> Logged in as: {{user.username}}  </span><br/>
+			<a style='display: block; color: #6cf; font-size:8pt; margin-left: 20px; margin-top: 5px;' href="/accounts/logout" class='discrete_link'>[logout]</a>
+		{% else %}
+	  
+	  <span style=' margin-left: 20px;'> Not logged in. </span><br/>
+	  <a class='discrete_link' style='display: block; color: #6cf; font-size:8pt; margin-left: 20px; margin-top: 5px;' href="/accounts/login/">[Login]</a> <br/>
+		{% endif %}
+	</td>
+  </tr>
+</table>
 <a class='menuitem' href='/'>Home</a>
 <a class='menuitem' href='/newproduct'>Create Product</a>
 <a class='menuitem' href='/newcategory'>Create Category</a>

@@ -64,13 +64,25 @@ $(localinit);
 <h2>{{ product.name }}</h2>
 <p><tiny>{% if overall_score %}Overall Score: {{ overall_score }}{% else %}Not rated yet.{% endif %}</tiny></p>
 
+<p>
+Rating is done on a 0 to 5 scale, with 5 being best. 
+
 <table class='summary_table'>
+<tr>
+  <th> </th>
+  <td> Rating: </td>
+  <td> Negative: </td>
+  <td> Positive: </td>
+</tr>
 {% for param in parameters %}
 
 <tr id='{{ param.sname }}_summary_row'>
   <th class='st_bar'> 
     {{ param.category_parameter.name }} <br/>
-    <a class='tinybtn' href="javascript:toggleCurtain('{{ param.sname }}');"> [Rate!] </a> 
+	{% if user.is_authenticated %}
+	  <a class='tinybtn' href="javascript:toggleCurtain('{{ param.sname }}');"> [Rate!] </a> 
+	{% else %}
+	{% endif %}
   </th>
   <td class='st_bar' id='{{ param.sname }}_score'> {{ param.get_score }} (by {{ param.score_count}}) </td>
   <td  id='{{param.sname}}_taglist_neg' class='st_bar'> {% for tag in param.get_tags_neg %} <span class='tag_neg'>{{tag.tagtext}} ({{tag.tagtext__count}})</span> {% endfor %} </td>
