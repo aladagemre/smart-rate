@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+  <form action="/advanced_search" method="GET">
+    <label>Category: </label>
+    <select name="category">
+    {% for c in categories %}
+		<option value="{{c}}" {% if c.selected %}selected{%endif%}>{{c}}</option> 
+	{% endfor %}
+	</select>
+	<br/>
+	<label>Feature: </label>
+	{% if parameters %}
+    <select name="parameter">
+    {% for p in parameters %}
+		<option value="{{p}}">{{p}}</option>
+	{% endfor %}
+	</select>
+	{% endif %}
+	<br/>
+	<label>Min:</label>
+	<select name="min">
+		<option value="1">1</option>
+		<option value="2">2</option>
+		<option value="3">3</option>
+		<option value="4">4</option>
+		<option value="5">5</option>
+	</select>
+	<label>Max:</label>
+	<select name="max">
+		<option value="1">1</option>
+		<option value="2">2</option>
+		<option value="3">3</option>
+		<option value="4">4</option>
+		<option value="5" selected>5</option>
+	</select>
+   <br/>
+    <input type="submit" value="Search">
+  </form>
+
+  {% if results %}
+    <h2>Results for "{{ category|escape }}s with feature {{ parameter }} rated between {{ min }} and {{max}}":</h2>
+
+    
+      <ul>
+      {% for product in results %}
+        <li><a href="/products/{{product.suburi}}">{{ product|escape }}</a></l1>
+      {% endfor %}
+      </ul>
+  {% else %}
+	<p>No products found</p>
+  {% endif %}
+  
+
+
+{% endblock %}
+
