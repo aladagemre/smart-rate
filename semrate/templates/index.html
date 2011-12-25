@@ -1,15 +1,18 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<center>
-	<div style="border: solid black 1px;">
-		<form action="/search">
-			<label>Search for a product:<br/><input type="text" name="q"/></label>
-			<input type="submit" value="Search"/>
-		</form>
-		<a href="/advanced_search">Advanced Search</a>
-	</div>
-</center>
+<div id='searchdiv'>
+	<h3> Search for a product: </h3>
+	<form action="/search">
+<!-- 			<label>Search for a product:</label><br/> -->
+		<table id='searchformtable'>
+		  <tr>
+			<td><input type="text" name="q" id='q'/></td><td><input id='searchinput' type="submit" value="Search"/></td></tr>
+			<td><a href="/advanced_search" class='discrete_link'>[Advanced Search]</a></td><td></td></tr>
+		</table>
+
+	</form>
+</div>
 <div style="width:100%">
 	<div>
 		<h3>Recent Products/Services</h3>
@@ -44,16 +47,6 @@
 
 <div style="width:100%">
 	<center>
-
-	{% if user.is_authenticated %}
-		<p>Welcome, {{ user.username }}. Thanks for logging in.</p>
-		<p><a href="/accounts/logout">Logout here</a></p>
-	{% else %}
-		<p>Welcome, new user. Please log in.</p>
-		<p><a href="/accounts/register">Register here</a></p>
-		<p><a href="/accounts/login">Login here</a></p>
-	{% endif %}
-
 
 	<div style="width:300px; background-color: white; border: solid blue; ">
 	<form action="{% url facebook_connect %}?facebook_login=1" method="post">

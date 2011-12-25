@@ -1,13 +1,35 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2> new product </h2>
+<h2> New product </h2>
 
 <form action='/newproduct' method='post'>
 {% csrf_token %}
+
+{% comment %}
 <table class='bordered'>
 {{ productform.as_table }}
 </table>
+{% endcomment %}
+
+<table>
+<tr><th><label for="id_name">Name:</label></th><td><input id="id_name" type="text" name="name" maxlength="32" /></td></tr>
+
+<tr>
+  <th><label for="id_category">Category:</label></th>
+  <td>
+	<select name="category" id="id_category">
+	  <option value="" selected="selected">---------</option>
+	  <option value="1">Cell Phone</option>
+	  <option value="2">Hotel</option>
+	  <option value="3">Restaurant</option>
+	</select>
+  </td>
+</tr>
+<tr><th><label for="id_description">Description:</label></th><td><textarea id="id_description" rows="10" cols="40" name="description"></textarea></td></tr>
+</table>
+
+
 <input type='submit' name='submit' value='submit'/>
 </form>
 

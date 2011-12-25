@@ -2,6 +2,7 @@ from django.conf.urls.defaults import patterns, include, url
 import os
 import settings
 
+
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
@@ -17,6 +18,10 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
     url(r'^facebook/', include('django_facebook.urls')),    
+
+    #url(r'^accounts/register', 'registration.views.register', {'backend':'registration.backends.default.DefaultBackend', 'template_name':'registration_form.html'}),
+    #url(r'^accounts/login', 'registration.views.register', {'backend':'registration.backends.default.DefaultBackend', 'template_name':'login.html'}),
+
     url(r'^accounts/', include('registration.backends.default.urls')),
     url(r'^messages/', include('django_messages.urls')),
     url(r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': os.path.join(settings.PROJECT_PATH,'site_media') }),
@@ -38,5 +43,6 @@ urlpatterns = patterns('',
     url(r'^products/(?P<path>.*)/$', 'review.views.viewproduct', {}),
     url(r'^search/$', 'review.views.searchproduct', {}),
     
+    url(r'^login', 'review.views.login'),
 
 )

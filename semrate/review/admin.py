@@ -1,5 +1,5 @@
 from django.contrib import admin
-from review.models import Product, Parameter, Tag
+from review.models import Product, Parameter, Tag, Category, CategoryParameter
 
 class ProductAdmin(admin.ModelAdmin):
     pass
@@ -14,5 +14,7 @@ class TagAdmin(admin.ModelAdmin):
 admin.site.register(Tag, TagAdmin)
 
 
+admin.site.register(Category)
+admin.site.register(CategoryParameter)
 
 
