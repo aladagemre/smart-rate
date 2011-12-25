@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
+<div id='spacing_div'>
   <form action="/advanced_search" method="GET">
     <label>Category: </label>
     <select name="category">
@@ -52,7 +52,7 @@
 	<p>No products found</p>
   {% endif %}
   
-
+</div>
 
 {% endblock %}
 
