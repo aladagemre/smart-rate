@@ -173,6 +173,7 @@ def create_parameter(request):
   product = Product.objects.get(id=int(request.POST.get('product')))
   d = copy.deepcopy(request.POST)
   del d['product']
+  d['slug'] = slugify(d['name'])
   parameterform = CategoryParameterForm(d)
   stuff = dir(parameterform)
   errors = parameterform.errors
