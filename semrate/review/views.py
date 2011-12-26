@@ -34,7 +34,7 @@ def index(request):
   c['request'] = request
   c['products'] = Product.objects.all()
   c['recent_pair'] = recent_pair
-  c['facebook_id'] = request.user.userprofile
+  c['facebook_id'] = getattr(request.user, 'userprofile', None)
  
   return  HttpResponse(t.render(c))
 
