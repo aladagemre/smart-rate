@@ -29,12 +29,13 @@ def index(request):
       date_set.append(recent_dates[i])
 
   recent_pair = zip(product_set, author_set, date_set)
-
   t = get_template('index.html')
   c = RequestContext(request,{})
   c['request'] = request
   c['products'] = Product.objects.all()
   c['recent_pair'] = recent_pair
+  c['facebook_id'] = request.user.userprofile
+ 
   return  HttpResponse(t.render(c))
 
 def searchproduct(request):
