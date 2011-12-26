@@ -106,6 +106,7 @@ class TagForm(forms.ModelForm):
 class CategoryForm(forms.ModelForm):
 	class Meta:
 		model = Category
+		exclude=['slug']
 
 # Create your models here.
 
