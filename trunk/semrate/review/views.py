@@ -10,7 +10,7 @@ import copy
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import AnonymousUser
 from django.db.models import F
-
+import json, urllib, urllib2
 
 def index(request):
   recent_tags = Tag.objects.order_by('date')[::-1]
@@ -260,3 +260,33 @@ def login(request):
   if user is not None:
     django.contrib.auth.login(request, user)
   return HttpResponseRedirect(path)
+
+def notable_for(request):
+  id = request.GET['id']
+  #id = "/en/nokia_3210"
+  q = { "extended":1, "query": { "id": id, "type": "/common/topic", "notable_for": None } }
+  q_json = json.dumps(q)
+
+  url = 'http://www.freebase.com/api/service/mqlread?query=%s' % q_json
+  req = urllib2.Request(url=url)
+  s = urllib2.urlopen(req).read()
+  res = json.loads(s)
+
+  notable_for = res['result']['notable_for']
+
+  q = { "extended":1, "query": { "id": notable_for, "name": None} }
+  q_json = json.dumps(q)
+  url = 'http://www.freebase.com/api/service/mqlread?query=%s' % q_json
+  req = urllib2.Request(url=url)
+  s = urllib2.urlopen(req).read()
+  res = json.loads(s)
+
+  type_name = res['result']['name']
+
+  response_json = json.dumps({"id":notable_for, "name":type_name})
+
+  
+  return HttpResponse(response_json, content_type='application/json')
+  
+  
+  
