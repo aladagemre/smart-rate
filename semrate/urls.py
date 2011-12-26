@@ -44,5 +44,6 @@ urlpatterns = patterns('',
     url(r'^search/$', 'review.views.searchproduct', {}),
     
     url(r'^login', 'review.views.login'),
+    url(r'^notable_for', 'review.views.notable_for'),
 
 )

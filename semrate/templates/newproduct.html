@@ -1,22 +1,87 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2> New product </h2>
 
-<form action='/newproduct' method='post'>
+<script type='text/javascript'>
+var o = { type:'/music/album', 
+          type:'/film/film',
+          type:'/tv/tv_program' };
+
+function selected(e, data) {
+  $('#id_fbid').val(data.id);
+  $('#id_name').val(data.name);
+  $('#product_name').html(data.name);
+  $('#product_type').html('('+data.name+')');
+  get_params();
+}
+
+$(function() {
+  $("#fb_product_autosuggest_input").suggest().bind('fb-select', selected);
+});
+
+var global;
+
+function get_params() {
+  var fbid = $('#id_fbid').val();
+  console.log('get_params' + fbid);
+  query = [{"id": fbid, "/common/topic/image": [{}], "type":[]}];
+  query_envelope = {'query' : query};
+  service_url = 'http://api.freebase.com/api/service/mqlread';
+  url = service_url  + '?callback=?&query=' + encodeURIComponent(JSON.stringify(query_envelope));
+  $.getJSON(url, function(response) {
+	types = response.result[0]['type'];
+	for (i in types) {
+	  $('#type_select').append('<option>'+types[i]+'</option>');
+	}
+	var imgsuburl = response.result[0]['/common/topic/image'][0]['id'];
+	var imgurl = 'http://img.freebase.com/api/trans/image_thumb'+imgsuburl+'?maxheight=150&mode=fit&maxwidth=150';
+	$('#product_image_img').attr('src',imgurl);
+  });
+  $.getJSON('/notable_for?id='+fbid, function(response) {
+	global = response;
+	$('#product_type').html('('+response['name']+')');
+	$('#id_fbtype').val(response['id']);
+
+  });
+
+}
+</script>
+
+<h2> New product </h2>
+<a style='font-size: 9pt;' class='discrete_link' href='javascript:toggle_create_mod()'>[Add product not in the list]</a><br/><br/>
+
+Search for your product, and select from the list:<br/>
+<input id='fb_product_autosuggest_input' type='input'> 
+<p>
+<span style='font-size: 14pt; background-color: green;' id='product_name'></span> <span style='font-size: 14pt; background-color: blue;' id='product_type'></span>
+</p>
+<div style='background-color: red; height: 200px;' id='product_image'>
+<img id='product_image_img' src=''/>
+</div>
+<form>
+<input type='text' id='id_fbid'/><br/>
+<input type='text' id='id_fbtype'/><br/>
+<input type='submit' value='Add product'/>
+</form>
+
+<br/>
+<br/>
+<br/>
+
+
+
+
+<!--<form action='/newproduct' method='post'>
 {% csrf_token %}
 
-{% comment %}
-<table class='bordered'>
-{{ productform.as_table }}
-</table>
-{% endcomment %}
-
 <table>
+<tr><th>Picture</th><td> <a href='javascript:get_params()'> get_params() </a> </td></tr>
+
 <tr><th><label for="id_name">Name:</label></th><td><input id="id_name" type="text" name="name" maxlength="32" /></td></tr>
 
 <tr>
-  <th><label for="id_category">Category:</label></th>
+  <th><label for="id_category">Category:</label>
+  </th>
   <td>
 	<select name="category" id="id_category">
 	  <option value="" selected="selected">---------</option>
@@ -25,13 +90,13 @@
 	  <option value="3">Restaurant</option>
 	</select>
   </td>
-</tr>
+</tr>	
 <tr><th><label for="id_description">Description:</label></th><td><textarea id="id_description" rows="10" cols="40" name="description"></textarea></td></tr>
 </table>
 
 
 <input type='submit' name='submit' value='submit'/>
-</form>
+</form>-->
 
 
 
