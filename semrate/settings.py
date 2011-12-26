@@ -152,6 +152,7 @@ INSTALLED_APPS = (
     'registration',
     'member',
     'django_messages',
+    'django_facebook',
 )
 
 # A sample logging configuration. The only tangible logging

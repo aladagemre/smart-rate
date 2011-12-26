@@ -78,6 +78,9 @@ $(function() {
 	<td style='width: 150px;' style='vertical-align: top;'>
 		{% if user.is_authenticated %}
 	  <span style=' margin-left: 20px;'> Logged in as: {{user.username}}  </span><br/>
+	  {% if facebook_id %}
+		<img src="https://graph.facebook.com/{{facebook_id}}/picture"/>
+	  {% endif %}
 			<a style='display: block; color: #6cf; font-size:8pt; margin-left: 20px; margin-top: 5px;' href="/accounts/logout" class='discrete_link'>[logout]</a>
 		{% else %}
 	  
