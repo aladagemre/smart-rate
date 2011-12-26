@@ -289,4 +289,11 @@ def notable_for(request):
   return HttpResponse(response_json, content_type='application/json')
   
   
-  
+def rdf(request, suburi):
+	product = Product.objects.get(suburi=suburi)
+	parameters = Parameter.objects.filter(product=product)
+	return render_to_response("product.rdf", {
+		'product': product,
+		'parameters': parameters,
+		
+	})
