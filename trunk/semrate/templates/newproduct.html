@@ -8,10 +8,10 @@ var o = { type:'/music/album',
           type:'/tv/tv_program' };
 
 function selected(e, data) {
-  $('#id_fbid').val(data.id);
-  $('#id_name').val(data.name);
+  $('#fbid').val(data.id);
+  $('#fbname').val(data.name);
   $('#product_name').html(data.name);
-  $('#product_type').html('('+data.name+')');
+  //$('#product_type').html('('+data.name+')');
   get_params();
 }
 
@@ -22,9 +22,8 @@ $(function() {
 var global;
 
 function get_params() {
-  var fbid = $('#id_fbid').val();
-  console.log('get_params' + fbid);
-  query = [{"id": fbid, "/common/topic/image": [{}], "type":[]}];
+  var fbid = $('#fbid').val();
+  console.log('get_params' + fbid);  query = [{"id": fbid, "/common/topic/image": [{}], "type":[]}];
   query_envelope = {'query' : query};
   service_url = 'http://api.freebase.com/api/service/mqlread';
   url = service_url  + '?callback=?&query=' + encodeURIComponent(JSON.stringify(query_envelope));
@@ -39,11 +38,10 @@ function get_params() {
   });
   $.getJSON('/notable_for?id='+fbid, function(response) {
 	global = response;
-	$('#product_type').html('('+response['name']+')');
-	$('#id_fbtype').val(response['id']);
-
+	$('#product_type').html('('+response['id']+')');
+	$('#fbtype_id').val(response['id']);
+	$('#fbtype_name').val(response['name']);
   });
-
 }
 </script>
 
@@ -58,9 +56,11 @@ Search for your product, and select from the list:<br/>
 <div style='background-color: red; height: 200px;' id='product_image'>
 <img id='product_image_img' src=''/>
 </div>
-<form>
-<input type='text' id='id_fbid'/><br/>
-<input type='text' id='id_fbtype'/><br/>
+<form action='/add_product_fb' method='post'>
+<input type='text' id='fbid' name='fbid'/><br/>
+<input type='text' id='fbname' name='fbname'/><br/>
+<input type='text' id='fbtype_id' name='fbtype_id'/><br/>
+<input type='text' id='fbtype_name' name='fbtype_name'/><br/>
 <input type='submit' value='Add product'/>
 </form>
 

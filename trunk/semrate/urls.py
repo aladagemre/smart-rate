@@ -46,5 +46,7 @@ urlpatterns = patterns('',
     url(r'^login', 'review.views.login'),
     url(r'^notable_for', 'review.views.notable_for'),
     url(r'^rdf/(?P<suburi>.*)/$', 'review.views.rdf', {}),
+    
+    url(r'add_product_fb','review.views.add_product_fb'),
 
 )

@@ -297,3 +297,19 @@ def rdf(request, suburi):
 		'parameters': parameters,
 		
 	})
+
+
+@csrf_exempt
+def add_product_fb(request):
+  fbid = request.POST['fbid']
+  fbnam = request.POST['fbname']
+  fbtype_id = request.POST['fbtype_id']
+  fbtype_name = request.POST['fbtype_name']
+  
+  Category.objects.get()
+  #return HttpResponseRedirect('/')
+  return HttpResponse('foo')
+  
+  
+  
+  
