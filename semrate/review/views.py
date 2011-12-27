@@ -10,7 +10,7 @@ import copy
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import AnonymousUser, User
 from django.db.models import F
-import json, urllib, urllib2
+import json, urllib, urllib2, datetime
 
 def index(request):
   recent_tags = Tag.objects.order_by('date')[::-1]
@@ -321,15 +321,16 @@ def add_product_fb(request):
   fbtype_id = request.POST['fbtype_id']
   fbtype_name = request.POST['fbtype_name']
   imgslug = request.POST['imgslug']
+  up = request.user.userprofile
+  dt = datetime.datetime.now()
   
   if not Category.objects.filter(slug=fbtype_id):
-	c = Category(name=fbtype_name, slug=fbtype_id)
+	c = Category(name=fbtype_name, slug=fbtype_id, creator=up, last_activity=up, last_activity_time=dt)
 	c.save()
   else:
 	c = Category.objects.get(slug=fbtype_id)
-  
   if not Product.objects.filter(slug=fbid):
-	p = Product(slug=fbid, name=fbname, description='x', category=c, imgslug=imgslug)
+	p = Product(slug=fbid, name=fbname, description='x', category=c, imgslug=imgslug, creator=up, last_activity=up, last_activity_time=dt)
 	p.save()
   else:
 	p = Product.objects.get(slug=fbid)
@@ -375,14 +376,25 @@ def create_category_parameter(request):
   CategoryParameter(category=cat, slug=parameter_slug, name=parameter_name).save()
   return HttpResponseRedirect('/edit_category'+category_slug)
 
+def tag_count_of_user(userprofile):
+  return Tag.objects.filter(author=userprofile).count()
+
+def products_rated_of_user(userprofile):
+  scores = Score.objects.filter(user=userprofile)
+  params = [x.param for x in scores]
+  products = [param.product for param in params]
+  return products
 
 def user(request,username):
   user = User.objects.get(username	= username)
   t = get_template('user.html')
   c = RequestContext(request,{})
   
+  
   c['user'] = user
   c['request'] = request
+  c['tagcount'] = tag_count_of_user(user.userprofile)
+  c['products'] = products_rated_of_user(user.userprofile)
   c.update(csrf(request))
   return  HttpResponse(t.render(c))
   

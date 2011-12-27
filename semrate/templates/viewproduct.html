@@ -65,18 +65,23 @@ $(localinit);
 <table style='width: 700px;'> 
   <tr>
   <td style='width: 550px; vertical-align: top;'>
-  <h2>{{ product.name }}</h2>
-
-{% comment %}
-<p><tiny>{% if overall_score %}Overall Score: {{ overall_score }}{% else %}Not rated yet.{% endif %}</tiny></p>
-{% endcomment %}
-
-<div id='rating'>
-Rating
-<div id='rating_inside'>
-{{ overall_score }}
-</div>
-</div>
+  <h2 style='margin-bottom: 8px;' >{{ product.name }}</h2>
+  <h4 style='margin-top: 0px;'> {{product.category}} </h4>
+<table style='width: 550px;'>
+<tr>
+<td>
+  <a class='discrete_button' style='font-size: 9pt;' href="/category{{product.category.slug}}"> [See other products in same category] </a> <br/>
+</td>
+<td style='text-align: center;'>
+  <div id='rating'>
+  Rating
+  <div id='rating_inside'>
+  {{ overall_score }}
+  </div>
+  </div>
+</td>
+</tr>
+</table>
 
   </td>
   <td>
@@ -100,22 +105,22 @@ Rating is done on a 0 to 5 scale, with 5 being best.
 </tr>
 {% for param in parameters %}
 
-<tr id='{{ param.slug }}_summary_row'>
+<tr id='{{ param.slug_wo }}_summary_row'>
   <th class='st_bar'> 
     {{ param.name }} <br/>
 	{% if user.is_authenticated %}
-	  <a class='tinybtn' href="javascript:toggleCurtain('{{ param.slug }}');"> [Rate!] </a> 
+	  <a class='tinybtn' href="javascript:toggleCurtain('{{ param.slug_wo }}');"> [Rate!] </a> 
 	{% else %}
 	{% endif %}
   </th>
   <td class='st_bar' id='{{ param.slug }}_score'> {{ param.get_score }} <span style='font-size: 8pt;'>(by {{ param.score_count}})</span> </td>
-  <td  id='{{param.slug}}_taglist_neg' class='st_bar'> {% for tag in param.get_tags_neg %} <span class='tag_neg'>{{tag.tagtext}} {% if tag.tagtext__count != 1 %} ({{tag.tagtext__count}}){% endif %}</span> {% endfor %} </td>
-  <td  id='{{param.slug}}_taglist_pos' class='st_bar'> {% for tag in param.get_tags_pos %} <span class='tag_pos'>{{tag.tagtext}} {% if tag.tagtext__count != 1 %} ({{tag.tagtext__count}}){% endif %}</span> {% endfor %} </td>
+  <td  id='{{param.slug_wo}}_taglist_neg' class='st_bar'> {% for tag in param.get_tags_neg %} <span class='tag_neg'>{{tag.tagtext}} {% if tag.tagtext__count != 1 %} ({{tag.tagtext__count}}){% endif %}</span> {% endfor %} </td>
+  <td  id='{{param.slug_wo}}_taglist_pos' class='st_bar'> {% for tag in param.get_tags_pos %} <span class='tag_pos'>{{tag.tagtext}} {% if tag.tagtext__count != 1 %} ({{tag.tagtext__count}}){% endif %}</span> {% endfor %} </td>
 </tr>
-<tr style='display: none;' id='{{ param.slug }}_summary_curtain' class='summary_curtain'>
+<tr style='display: none;' id='{{ param.slug_wo }}_summary_curtain' class='summary_curtain'>
   <th class='st_curtain'>  </th>
   <td class='st_curtain'>
-    <form id='{{param.slug}}_rate' action='/rate_parameter'>
+    <form id='{{param.slug_wo}}_rate' action='/rate_parameter'>
 	  <input type="hidden" name='parameter_id' value='{{param.id}}'/>
       <select class='scoreselect' name='score'>
         <option value='none' selected='selected'>---</option>
@@ -129,7 +134,7 @@ Rating is done on a 0 to 5 scale, with 5 being best.
     </form>
   </td>
   <td class='st_curtain' style='white-space: nowrap;'>
-        <form id='{{param.slug}}_neg' class='no_submit'> <!--2'  action="/ajax_createtag" method="post">-->
+        <form id='{{param.slug_wo}}_neg' class='no_submit'> <!--2'  action="/ajax_createtag" method="post">-->
           {% csrf_token %}
           {{ tagform.tagtext }}
           <input type='hidden' id='id_parameter' name='parameter' value='{{param.id}}'/>
@@ -139,7 +144,7 @@ Rating is done on a 0 to 5 scale, with 5 being best.
         </form>
   </td>
   <td class='st_curtain' style='white-space: nowrap;'>
-        <form id='{{param.slug}}_pos' class='no_submit'>
+        <form id='{{param.slug_wo}}_pos' class='no_submit'>
           {% csrf_token %}
           {{ tagform.tagtext }}
           <input type='hidden' id='id_parameter' name='parameter' value='{{param.id}}'/>
@@ -179,6 +184,22 @@ Rating is done on a 0 to 5 scale, with 5 being best.
 
 <br/><br/>
 <a class='discrete_link' style='font-size: 8pt;' href="/rdf/{{product.slug}}">[RDF]</a>
+
+
+<table id='last_activity_table' style='margin: auto;'>
+<tr>
+<td style='width: 150px;'> Creator: </td>
+<td style='width: 150px;'> Last activity: </td>
+</tr>
+<tr>
+<td> <img style='width:105px; height: 70px;' src='/site_media/{{product.creator.user.username}}.jpg'> </td>
+<td> <img style='width:105px; height: 70px;'  src='/site_media/{{product.last_activity.user.username}}.jpg'> </td>
+</tr>
+<tr>
+<td> {{product.creator}} </td>
+<td> {{product.activity}} </td>
+</tr>
+</table>
 
 
 {% endblock %}
