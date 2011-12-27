@@ -45,7 +45,7 @@
     
       <ul>
       {% for product in results %}
-        <li><a href="/products/{{product.suburi}}">{{ product|escape }}</a></l1>
+        <li><a href="/products{{product.slug}}">{{ product|escape }}</a></l1>
       {% endfor %}
       </ul>
   {% else %}

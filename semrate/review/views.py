@@ -73,7 +73,7 @@ def advanced_search(request):
 	if abstract_parameter and min_rating and max_rating:
 		qset = (
 		Q(category__name=category) &
-		Q(parameter__category_parameter__name=abstract_parameter) &
+		Q(parameter__name=abstract_parameter) &
 		Q(parameter__score_total__gte=F('parameter__score_count')*float(min_rating)) &
 		Q(parameter__score_total__lte=F('parameter__score_count')*float(max_rating)) 
 		)
