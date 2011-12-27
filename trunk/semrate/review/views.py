@@ -93,7 +93,7 @@ def newproduct(request):
     productform = ProductForm(request.POST)
     if productform.is_valid():
       p = productform.save()
-      return HttpResponseRedirect('/products/%s' % p.suburi)
+      return HttpResponseRedirect('/products/%s' % p.slug)
     
   else:
     productform = ProductForm()
@@ -106,7 +106,7 @@ def newproduct(request):
   return  HttpResponse(t.render(c))
 
 def viewproduct(request, path):
-  product = Product.objects.get(suburi=path)
+  product = Product.objects.get(slug=path)
   parameters = Parameter.objects.filter(product=product)
   # get abstract category parameter of each parameter. (like screen of iphone -> screen)
   parameter_c_values = set(map(lambda p: p.category_parameter, parameters))
@@ -124,7 +124,7 @@ def viewproduct(request, path):
     # for each missing feature
     for c_param in lacking_c_parameters:
       slug = slugify(c_param.name)
-      p = Parameter(sname=slug, category_parameter=c_param, product=product, score_total=0, score_count=0)
+      p = Parameter(slug=slug, category_parameter=c_param, product=product, score_total=0, score_count=0)
       p.save()
     
     # now get the updated parameter list for iphone. 
@@ -160,7 +160,7 @@ def rate_parameter(request):
   parameter.save()
   product = parameter.product
   
-  return redirect('/products/%s' % product.suburi)
+  return redirect('/products/%s' % product.slug)
 """  
 def ajax_createparameter(request):
   parameterform = CategoryParameterForm(request.POST)
@@ -179,7 +179,7 @@ def create_parameter(request):
   errors = parameterform.errors
   parameterform.save()
   
-  return redirect('/products/%s' % product.suburi)
+  return redirect('/products/%s' % product.slug)
 
 
 def ajax_createtag(request):
@@ -289,8 +289,8 @@ def notable_for(request):
   return HttpResponse(response_json, content_type='application/json')
   
   
-def rdf(request, suburi):
-	product = Product.objects.get(suburi=suburi)
+def rdf(request, slug):
+	product = Product.objects.get(slug=slug)
 	parameters = Parameter.objects.filter(product=product)
 	return render_to_response("product.rdf", {
 		'product': product,

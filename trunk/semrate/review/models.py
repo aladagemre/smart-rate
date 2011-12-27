@@ -24,14 +24,14 @@ class CategoryParameter(models.Model):
 		return self.name
 	
 class Product(models.Model):
-  suburi = models.CharField(max_length=32, unique=True)
+  slug = models.CharField(max_length=32, unique=True)
   name = models.CharField(max_length=32, unique=True)
   description = models.TextField()
   category = models.ForeignKey(Category)
   
   def clean_fields(self, exclude=[]):
     self.name = self.name.strip()
-    self.suburi = urllib.quote(self.name.replace(' ','_').lower())
+    self.slug = urllib.quote(self.name.replace(' ','_').lower())
   def __str__(self):
     return self.name
 
@@ -39,7 +39,7 @@ class Parameter(models.Model):
   #name = models.CharField(max_length=32)
   # "simple name", 
   #the name with _ and lowercase, used for ids and stuff
-  sname = models.CharField(max_length=32) 
+  slug = models.CharField(max_length=32) 
   #description = models.TextField()
   category_parameter = models.ForeignKey(CategoryParameter)
   product = models.ForeignKey(Product)
@@ -70,7 +70,7 @@ class Parameter(models.Model):
 
   def clean_fields(self, exclude=[]):
     self.category_parameter.name = self.category_parameter.name.strip()
-    self.sname = self.category_parameter.name.replace(' ','_').lower()
+    self.slug = self.category_parameter.name.replace(' ','_').lower()
 
 class Tag(models.Model):
   tagtext = models.CharField(max_length=32)
@@ -85,7 +85,7 @@ class Tag(models.Model):
 class ProductForm(forms.ModelForm):
   class Meta:
     model = Product
-    exclude = ['suburi',]
+    exclude = ['slug',]
 
 class CategoryParameterForm(forms.ModelForm):
   class Meta:
