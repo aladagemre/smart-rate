@@ -62,7 +62,7 @@ function toggleAddParameter() {
 $(localinit);
 </script>
 <h2>{{ product.name }}</h2>
-<tiny><a href="/rdf/{{product.suburi}}">RDF</a></tiny>
+<tiny><a href="/rdf/{{product.slug}}">RDF</a></tiny>
 <p><tiny>{% if overall_score %}Overall Score: {{ overall_score }}{% else %}Not rated yet.{% endif %}</tiny></p>
 
 <p>
@@ -77,22 +77,22 @@ Rating is done on a 0 to 5 scale, with 5 being best.
 </tr>
 {% for param in parameters %}
 
-<tr id='{{ param.sname }}_summary_row'>
+<tr id='{{ param.slug }}_summary_row'>
   <th class='st_bar'> 
     {{ param.category_parameter.name }} <br/>
 	{% if user.is_authenticated %}
-	  <a class='tinybtn' href="javascript:toggleCurtain('{{ param.sname }}');"> [Rate!] </a> 
+	  <a class='tinybtn' href="javascript:toggleCurtain('{{ param.slug }}');"> [Rate!] </a> 
 	{% else %}
 	{% endif %}
   </th>
-  <td class='st_bar' id='{{ param.sname }}_score'> {{ param.get_score }} (by {{ param.score_count}}) </td>
-  <td  id='{{param.sname}}_taglist_neg' class='st_bar'> {% for tag in param.get_tags_neg %} <span class='tag_neg'>{{tag.tagtext}} ({{tag.tagtext__count}})</span> {% endfor %} </td>
-  <td  id='{{param.sname}}_taglist_pos' class='st_bar'> {% for tag in param.get_tags_pos %} <span class='tag_pos'>{{tag.tagtext}} ({{tag.tagtext__count}})</span> {% endfor %} </td>
+  <td class='st_bar' id='{{ param.slug }}_score'> {{ param.get_score }} (by {{ param.score_count}}) </td>
+  <td  id='{{param.slug}}_taglist_neg' class='st_bar'> {% for tag in param.get_tags_neg %} <span class='tag_neg'>{{tag.tagtext}} ({{tag.tagtext__count}})</span> {% endfor %} </td>
+  <td  id='{{param.slug}}_taglist_pos' class='st_bar'> {% for tag in param.get_tags_pos %} <span class='tag_pos'>{{tag.tagtext}} ({{tag.tagtext__count}})</span> {% endfor %} </td>
 </tr>
-<tr style='display: none;' id='{{ param.sname }}_summary_curtain' class='summary_curtain'>
+<tr style='display: none;' id='{{ param.slug }}_summary_curtain' class='summary_curtain'>
   <th class='st_curtain'>  </th>
   <td class='st_curtain'>
-    <form id='{{param.sname}}_rate' action='/rate_parameter'>
+    <form id='{{param.slug}}_rate' action='/rate_parameter'>
 	  <input type="hidden" name='parameter_id' value='{{param.id}}'/>
       <select class='scoreselect' name='score'>
         <option value='none' selected='selected'>---</option>
@@ -106,7 +106,7 @@ Rating is done on a 0 to 5 scale, with 5 being best.
     </form>
   </td>
   <td class='st_curtain' style='white-space: nowrap;'>
-        <form id='{{param.sname}}_neg' class='no_submit'> <!--2'  action="/ajax_createtag" method="post">-->
+        <form id='{{param.slug}}_neg' class='no_submit'> <!--2'  action="/ajax_createtag" method="post">-->
           {% csrf_token %}
           {{ tagform.tagtext }}
           <input type='hidden' id='id_parameter' name='parameter' value='{{param.id}}'/>
@@ -116,7 +116,7 @@ Rating is done on a 0 to 5 scale, with 5 being best.
         </form>
   </td>
   <td class='st_curtain' style='white-space: nowrap;'>
-        <form id='{{param.sname}}_pos' class='no_submit'>
+        <form id='{{param.slug}}_pos' class='no_submit'>
           {% csrf_token %}
           {{ tagform.tagtext }}
           <input type='hidden' id='id_parameter' name='parameter' value='{{param.id}}'/>
