@@ -155,6 +155,8 @@ INSTALLED_APPS = (
     'member',
     'django_messages',
     'django_facebook',
+    
+    'django.contrib.humanize',
 )
 
 # A sample logging configuration. The only tangible logging

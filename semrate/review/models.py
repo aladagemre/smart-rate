@@ -11,8 +11,8 @@ class Category(models.Model):
 	slug = models.SlugField()
 	creator = models.ForeignKey(UserProfile, related_name='category_creator')
 	last_activity = models.ForeignKey(UserProfile, related_name='category_last_editor')
-	last_activity_time = models.DateTimeField()
-	
+	last_activity_time = models.DateTimeField(auto_now_add=True)
+	created_time = models.DateTimeField(auto_now_add=True)
 
 	def get_params(self):
 	  return CategoryParameter.objects.filter(category=self)
@@ -37,7 +37,8 @@ class Product(models.Model):
   imgslug = models.CharField(max_length='256',null=True,blank=True)
   creator = models.ForeignKey(UserProfile, related_name='product_creator')
   last_activity = models.ForeignKey(UserProfile, related_name='product_last_editor')
-  last_activity_time = models.DateTimeField()
+  last_activity_time = models.DateTimeField(auto_now_add=True)
+  created_time = models.DateTimeField(auto_now_add=True)
   
   def clean_fields(self, exclude=[]):
     self.name = self.name.strip()

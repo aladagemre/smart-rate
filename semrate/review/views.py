@@ -165,6 +165,9 @@ def rate_parameter(request):
 
   scs = Score.objects.filter(param=param)
   
+  param.product.last_activity = request.user.userprofile
+  param.product.save()
+  
   param.score_total = sum([sc.value for sc in scs])
   param.score_count = len(scs)
   param.save()
@@ -193,14 +196,20 @@ def create_parameter(request):
   #stuff = dir(parameterform)
   #errors = parameterform.errors
   #parameterform.save()
-  Parameter(name=d['name'], slug='/'+slugify(d['name']), product=product).save()
+  param = Parameter(name=d['name'], slug='/'+slugify(d['name']), product=product)
+  param.save()
+
+  param.product.last_activity = request.user.userprofile
+  param.product.save()
+
   
   return redirect('/products%s' % product.slug)
 
 def ajax_createtag(request):
   tagtext = request.POST['tagtext']
+  param = Parameter.objects.get(id=request.POST['parameter'])
   if type(request.user) is not AnonymousUser:
-    tags_existing = Tag.objects.filter(tagtext=tagtext, author=request.user)
+    tags_existing = Tag.objects.filter(tagtext=tagtext, author=request.user, parameter=param)
     if tags_existing:
       return HttpResponse('failure')
 
@@ -218,9 +227,14 @@ def ajax_createtag(request):
   #tagform.charge = 1 #Parameter.objects.all()[0]
   user = request.user
   ty = type(user)
+
   Tag.objects.filter(author=request.user)
-  
-  tagform.save()
+  post = request.POST
+  tag = tagform.save()
+
+  tag.parameter.product.last_activity = request.user.userprofile
+  tag.parameter.product.save()
+
   #raise
   return HttpResponse('success')
 
@@ -254,10 +268,11 @@ def category(request, slug):
 	category = Category.objects.get(slug=slug)
 	products = Product.objects.filter(category=category)
 	
-	return render_to_response("products_of_category.html", {
-		'category': category,
-		'products': products,
-	})
+	t = get_template("products_of_category.html")
+	c = RequestContext(request,{})
+	c['category'] = category
+	c['produccts'] = products
+	return HttpResponse(t.render(c))
 
 
 import django.contrib.auth
@@ -373,6 +388,11 @@ def create_category_parameter(request):
   
   
   cat = Category.objects.get(slug=category_slug)
+  
+  cat.last_activity = request.user.userprofile
+  cat.save()
+
+  
   CategoryParameter(category=cat, slug=parameter_slug, name=parameter_name).save()
   return HttpResponseRedirect('/edit_category'+category_slug)
 

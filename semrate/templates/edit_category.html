@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load humanize %}
 {% block title%} SemRate - Editing category: {{category.name}} {% endblock %}
 
 {% block content %}
@@ -33,4 +34,25 @@ Add parameter: <br/>
 <input type='hidden' name='category_slug' value='{{category.slug}}'/>
 <input type='submit' value='Add'/>
 </form>
+
+<table id='last_activity_table' style='margin: auto;'>
+<tr>
+<td style='width: 150px;'> Creator: </td>
+<td style='width: 150px;'> Last activity: </td>
+</tr>
+<tr>
+<td> <img style='width:105px; height: 70px;' src='/site_media/{{category.creator.user.username}}.jpg'> </td>
+<td> <img style='width:105px; height: 70px;'  src='/site_media/{{category.last_activity.user.username}}.jpg'> </td>
+</tr>
+<tr>
+<td> {{category.creator}} </td>
+<td> {{category.last_activity}} </td>
+</tr>
+<tr>
+<td> {{category.created_time|naturalday}} </td>
+<td> {{category.last_activity_time|naturalday}} </td>
+</tr>
+</table>
+
+
 {% endblock %}
