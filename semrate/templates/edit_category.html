@@ -44,12 +44,12 @@ Add parameter: <br/>
 <td> <img style='width:105px; height: 70px;'  src='/site_media/{{category.last_activity.user.username}}.jpg'> </td>
 </tr>
 <tr>
-<td> {{category.creator}} </td>
-<td> {{category.last_activity}} </td>
+<td> <a href='/user/{{category.creator}}'>{{category.creator}}</a> </td>
+<td> <a href='/user/{{category.creator}}'>{{category.last_activity}} </td>
 </tr>
 <tr>
-<td> {{category.created_time}} </td>
-<td> {{category.last_activity_time}} </td>
+<td style='font-size: 8pt;'> {{category.created_time}} </td>
+<td style='font-size: 8pt;'> {{category.last_activity_time}} </td>
 </tr>
 </table>
 

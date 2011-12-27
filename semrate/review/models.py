@@ -128,6 +128,9 @@ class Score(models.Model):
   value = models.IntegerField()
   param = models.ForeignKey(Parameter)
   
-#import member.UserProfile
-#class UserProfile(member.UserProfile):
-  #pass
+import member.models
+class UserProfile(member.models.UserProfile):
+  def get_imgurl(self):
+	return self.username + 'SMTH'
+  
+  pass
