@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% load humanize %}
 {% block title%} SemRate - Editing category: {{category.name}} {% endblock %}
 
 {% block content %}
@@ -49,8 +48,8 @@ Add parameter: <br/>
 <td> {{category.last_activity}} </td>
 </tr>
 <tr>
-<td> {{category.created_time|naturalday}} </td>
-<td> {{category.last_activity_time|naturalday}} </td>
+<td> {{category.created_time}} </td>
+<td> {{category.last_activity_time}} </td>
 </tr>
 </table>
 
