@@ -15,7 +15,7 @@
 </div>
 <div style="width:100%">
 	<div>
-		<h3>Recently added</h3>
+		<h3>Recently Added</h3>
 		<ul>
 		{% for product in products %}
 		<li><a href='products{{ product.slug }}'> {{ product.name }} </a></li>
@@ -48,7 +48,7 @@
 <div style="width:100%">
 	<center>
 
-	<div style="width:300px; background-color: #6cf; border: #6cf; ">
+	<div style="width:300px; background-color: #4b7f92; border: #4b7f92; ">
 	<form action="{% url facebook_connect %}?facebook_login=1" method="post">
 		<input type="hidden" value="{{ request.path }}" name="next" />
 
