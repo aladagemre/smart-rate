@@ -4,8 +4,8 @@
   xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" 
   xmlns:semr="http://www.pythonkursu.com:8890/DAV/home/SPARQL/rdf_sink/ontology#"
   xmlns:sm="http://www.pythonkursu.com:8890/DAV/home/SPARQL/rdf_sink/">
-  <rdf:Description rdf:about="/rdf{{ .slug }}">
-    <dc:title>{{ .slug }}</dc:title>
+  <rdf:Description rdf:about="/rdf{{ product.slug }}">
+    <dc:title>{{ product.name }}</dc:title>
 <rdf:type><sm:{{product.category.slug}} rdfs:label="{{parameter.category.name}}"></rdf:type> 
 	{% for parameter in parameters %}
 	<semr:hasFeature>
