@@ -1,14 +1,14 @@
-#{% extends 'base.html' %}
+{% extends 'base.html' %}
 
-#{% block content %}
-#<h2> Create Category</h2>
+{% block content %}
+<h2> Create Category</h2>
 
-#Please write the category in singular, e.g. 'hotel' instead #of 'hotels'. 
-#<form action='/newcategory' method='post'>
-#{% csrf_token %}
-#<label>Category Name<input id='category_name_input' #type="text" name="name"></label>
-#<input type='submit' name='submit' value='submit'/>
-#</form>
+Please write the category in singular, e.g. 'hotel' instead of 'hotels'. 
+<form action='/newcategory' method='post'>
+{% csrf_token %}
+<label>Category Name<input id='category_name_input' type="text" name="name"></label>
+<input type='submit' name='submit' value='submit'/>
+</form>
 
-#{% endblock %}
+{% endblock %}
 
