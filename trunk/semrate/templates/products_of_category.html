@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-  {% if products %}
     <h2>Products in Category {{category}}</h2>
 
-	  <a class='discrete_btn' style='font-size: 9pt;' href="/edit_category{{category.slug}}"> [Edit category] </a> 
+  {% if user.is_authenticated %}
+	<a class='discrete_btn' style='font-size: 9pt;' href="/edit_category{{category.slug}}"> [Edit category] </a> 
+  {% endif %}
+  {% if products %}
       <ul>
       {% for product in products %}
         <li><a href="/products{{product.slug}}">{{ product|escape }}</a></l1>
@@ -15,7 +16,6 @@
      <p>No products found for category {{category}}</p>
     
   {% endif %}
-
 
 {% endblock %}
 
