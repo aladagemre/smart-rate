@@ -14,7 +14,7 @@ REGISTRATION_BACKEND = 'registration.backends.default.DefaultBackend'
 
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 25
-AUTH_PROFILE_MODULE = "review.UserProfile"
+AUTH_PROFILE_MODULE = "member.UserProfile"
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
