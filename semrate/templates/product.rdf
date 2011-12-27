@@ -6,9 +6,9 @@
   xmlns:sm="http://www.pythonkursu.com:8890/DAV/home/SPARQL/rdf_sink/">
   <rdf:Description rdf:about="/rdf{{ product.slug }}">
     <dc:title>{{ product.name }}</dc:title>
-<rdf:type><sm:{{product.category.slug}} rdfs:label="{{parameter.category.name}}"></rdf:type> 
+<rdf:type><sm:{{product.category.slug}} rdfs:label="{{product.category.name}}"></rdf:type> 
 	{% for parameter in parameters %}
-	<semr:hasFeature>
+	<semr:hasFeature><sm:{{parameter.name}}></semr:hasFeature>
 		
 
 		<sm:parameterrating>{{parameter.get_score}}</sm:parameterrating>
