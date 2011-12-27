@@ -47,8 +47,9 @@ function get_params() {
 }
 </script>
 
-<h2> New Thing </h2>
+<h3>New Record</h3>
 
+{% if user.is_authenticated %}
 <div style='text-align: center;'>
   <p style='text-align: center;'>
   Search and select:<br/>
@@ -105,8 +106,8 @@ function get_params() {
 
 <input type='submit' name='submit' value='submit'/>
 </form>-->
-
-
-
+{% else %}
+You need to <a href="/accounts/login">login</a> to create a new record.
+{% endif %}
 {% endblock %}
 
