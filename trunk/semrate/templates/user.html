@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title%} SemRate - Editing category: {{category.name}} {% endblock %}
+
+{% block content %}
+
+<h2> {{user.username}} </h2>
+
+
+<img style='width: 130px; height: 100px;' src='/site_media/{{user.username}}.jpg'>
+<br/>
+<br/>
+
+Number of tags: {{tagcount}} <br/>
+
+<br/>
+<br/>
+
+
+
+<table>
+
+{% for product in products %}
+<tr>
+  <td>
+	<a class='discrete_link' href='/product{{product.slug}}'> {{product.name}} </a>
+	<span style='white-space: nowrap; font-size: 8pt;'>({{product.category}})</span>
+  </d>
+<tr>
+
+{% endfor %}
+
+</table>
+
+
+{% endblock %}

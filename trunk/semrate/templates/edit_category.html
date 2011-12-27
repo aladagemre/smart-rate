@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title%} SemRate - Editing category: {{category.name}} {% endblock %}
+
+{% block content %}
+
+<h2> Editing category '{{category.name}}'</h2>
+
+<br/><br/>
+
+
+<table id='category_parameter_list'>
+<tr>
+  <th style='width: 200px;'> Parameter name: </th>
+  <th style='width: 200px;'> Parameter slug: </th>
+  <th style='width: 80px;'> </th>
+</tr>
+
+{% for param in category.get_params %}
+
+<tr>
+<td>{{ param.name }}</td>
+<td> {{ param.slug }} </td>
+<td> <a href='/delete_category_parameter?category_slug={{param.category.slug}}&parameter_slug={{param.slug}}' class='discrete_link' style='font-size: 8pt;'> [Delete] </a> </td>
+</tr>
+
+{% endfor %}
+</table>
+
+<br/><br/>
+<form style='margin-left: 20px;' action='/create_category_parameter' method='post'>
+Add parameter: <br/>
+<input type='text' name='parameter_name'/>
+<input type='hidden' name='category_slug' value='{{category.slug}}'/>
+<input type='submit' value='Add'/>
+</form>
+{% endblock %}
