@@ -2,19 +2,24 @@ from django.contrib import admin
 from review.models import Product, Parameter, Tag, Category, CategoryParameter
 
 class ProductAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('id','slug','name','category','imgslug')
 admin.site.register(Product, ProductAdmin)
 
 class ParameterAdmin(admin.ModelAdmin):
-    list_display = ('id','category_parameter', 'product')
+    list_display = ('id','slug', 'name', 'product')
 admin.site.register(Parameter, ParameterAdmin)
 
 class TagAdmin(admin.ModelAdmin):
     list_display = ('id','parameter','tagtext')
 admin.site.register(Tag, TagAdmin)
 
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('id','name','slug')
+admin.site.register(Category, CategoryAdmin)
 
-admin.site.register(Category)
-admin.site.register(CategoryParameter)
+
+class CategoryParameterAdmin(admin.ModelAdmin):
+    list_display = ('id','name','slug')
+admin.site.register(CategoryParameter, CategoryParameterAdmin)
 
 

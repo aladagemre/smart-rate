@@ -32,13 +32,15 @@ function get_params() {
 	for (i in types) {
 	  $('#type_select').append('<option>'+types[i]+'</option>');
 	}
-	var imgsuburl = response.result[0]['/common/topic/image'][0]['id'];
-	var imgurl = 'http://img.freebase.com/api/trans/image_thumb'+imgsuburl+'?maxheight=150&mode=fit&maxwidth=150';
+	var imgslug = response.result[0]['/common/topic/image'][0]['id'];
+	var imgurl = 'http://img.freebase.com/api/trans/image_thumb'+imgslug+'?maxheight=150&mode=fit&maxwidth=150';
 	$('#product_image_img').attr('src',imgurl);
+	$('#imgslug').val(imgslug);
+
   });
   $.getJSON('/notable_for?id='+fbid, function(response) {
 	global = response;
-	$('#product_type').html('('+response['id']+')');
+	$('#product_type').html('('+response['name']+')');
 	$('#fbtype_id').val(response['id']);
 	$('#fbtype_name').val(response['name']);
   });
@@ -46,24 +48,30 @@ function get_params() {
 </script>
 
 <h2> New product </h2>
-<a style='font-size: 9pt;' class='discrete_link' href='javascript:toggle_create_mod()'>[Add product not in the list]</a><br/><br/>
 
-Search for your product, and select from the list:<br/>
-<input id='fb_product_autosuggest_input' type='input'> 
-<p>
-<span style='font-size: 14pt; background-color: green;' id='product_name'></span> <span style='font-size: 14pt; background-color: blue;' id='product_type'></span>
-</p>
-<div style='background-color: red; height: 200px;' id='product_image'>
-<img id='product_image_img' src=''/>
+<div style='text-align: center;'>
+  <p style='text-align: center;'>
+  Search and select:<br/>
+  <input id='fb_product_autosuggest_input' type='input'> <br/>
+  <a style='font-size: 9pt;' class='discrete_link' href='javascript:toggle_create_mod()'>[Add product not in the list]</a>
+  </p>
+  <p>
+  <span style='font-size: 14pt;' id='product_name'> &nbsp;</span> <span style='font-size: 14pt; ' id='product_type'></span>
+  </p>
+  <div id='new_product_img_div' id='product_image'>
+  <img id='product_image_img' src=''/>
+  </div>
+  <p>
+  <form action='/add_product_fb' method='post'>
+  <input type='submit' value='Add product'/>
+  <input type='hidden' id='fbid' name='fbid'/><br/>
+  <input type='hidden' id='fbname' name='fbname'/><br/>
+  <input type='hidden' id='fbtype_id' name='fbtype_id'/><br/>
+  <input type='hidden' id='fbtype_name' name='fbtype_name'/><br/>
+  <input type='hidden' id='imgslug' name='imgslug'/><br/>
+  </form>
+  </p>
 </div>
-<form action='/add_product_fb' method='post'>
-<input type='text' id='fbid' name='fbid'/><br/>
-<input type='text' id='fbname' name='fbname'/><br/>
-<input type='text' id='fbtype_id' name='fbtype_id'/><br/>
-<input type='text' id='fbtype_name' name='fbtype_name'/><br/>
-<input type='submit' value='Add product'/>
-</form>
-
 <br/>
 <br/>
 <br/>

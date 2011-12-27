@@ -4,9 +4,11 @@
 
   {% if products %}
     <h2>Products in Category {{category}}</h2>
+
+	  <a class='discrete_btn' style='font-size: 9pt;' href="/edit_category{{category.slug}}"> [Edit category] </a> 
       <ul>
       {% for product in products %}
-        <li><a href="/products/{{product.slug}}">{{ product|escape }}</a></l1>
+        <li><a href="/products{{product.slug}}">{{ product|escape }}</a></l1>
       {% endfor %}
       </ul>
   {% else %}

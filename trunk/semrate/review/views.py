@@ -8,7 +8,7 @@ from django.shortcuts import render_to_response, redirect
 from models import * #Product, ProductForm, Parameter, Category, CategoryParameter, CategoryParameterForm, Tag, TagForm
 import copy
 from django.template.defaultfilters import slugify
-from django.contrib.auth.models import AnonymousUser
+from django.contrib.auth.models import AnonymousUser, User
 from django.db.models import F
 import json, urllib, urllib2
 
@@ -107,28 +107,28 @@ def newproduct(request):
 
 def viewproduct(request, path):
   product = Product.objects.get(slug=path)
-  parameters = Parameter.objects.filter(product=product)
-  # get abstract category parameter of each parameter. (like screen of iphone -> screen)
-  parameter_c_values = set(map(lambda p: p.category_parameter, parameters))
-  # get abstract category parameter of this type of product (cell phone)
-  category_parameters = set(CategoryParameter.objects.filter(category=product.category))
+  #parameters = Parameter.objects.filter(product=product)
+  ## get abstract category parameter of each parameter. (like screen of iphone -> screen)
+  #parameter_c_values = set(map(lambda p: p.category_parameter, parameters))
+  ## get abstract category parameter of this type of product (cell phone)
+  #category_parameters = set(CategoryParameter.objects.filter(category=product.category))
   
-  # see if we have any missing feature for iphone.
-  lacking_c_parameters = category_parameters - parameter_c_values
+  ## see if we have any missing feature for iphone.
+  #lacking_c_parameters = category_parameters - parameter_c_values
   
-  # if we have any missing parameter(feature) for iphone then add it.
-  # for example after creating iphone, you created samsung and added new features to samsung. now you want iphone to have those features too.
-  # so lets add those missing features:
+  ## if we have any missing parameter(feature) for iphone then add it.
+  ## for example after creating iphone, you created samsung and added new features to samsung. now you want iphone to have those features too.
+  ## so lets add those missing features:
   
-  if lacking_c_parameters:
-    # for each missing feature
-    for c_param in lacking_c_parameters:
-      slug = slugify(c_param.name)
-      p = Parameter(slug=slug, category_parameter=c_param, product=product, score_total=0, score_count=0)
-      p.save()
+  #if lacking_c_parameters:
+    ## for each missing feature
+    #for c_param in lacking_c_parameters:
+      #slug = slugify(c_param.name)
+      #p = Parameter(slug=slug, category_parameter=c_param, product=product, score_total=0, score_count=0)
+      #p.save()
     
-    # now get the updated parameter list for iphone. 
-    parameters = Parameter.objects.filter(product=product)
+    ## now get the updated parameter list for iphone. 
+  parameters = Parameter.objects.filter(product=product)
 
   score_total = 0
   score_count = 0
@@ -136,9 +136,9 @@ def viewproduct(request, path):
     score_total += parameter.score_total
     score_count += parameter.score_count
   if not score_count:
-    overall_score = 0
+    overall_score = '-'
   else:
-    overall_score = score_total / float(score_count)
+    overall_score = '%.1f'%(score_total / float(score_count))
   
   t = get_template('viewproduct.html')
   c = RequestContext(request,{})
@@ -154,13 +154,25 @@ def viewproduct(request, path):
 def rate_parameter(request):
   score = int ( request.GET['score'] )
   param_id = int ( request.GET['parameter_id'] )
-  parameter = Parameter.objects.get(id=param_id)
-  parameter.score_total += score
-  parameter.score_count += 1
-  parameter.save()
-  product = parameter.product
+  param = Parameter.objects.get(id=param_id)
   
-  return redirect('/products/%s' % product.slug)
+  if Score.objects.filter(param=param,user=request.user.userprofile):
+	sc = Score.objects.get(param=param, user=request.user.userprofile)
+	sc.value = score
+	sc.save()
+  else:
+	Score(param=param, value=score, user = request.user.userprofile).save()
+
+  scs = Score.objects.filter(param=param)
+  
+  param.score_total = sum([sc.value for sc in scs])
+  param.score_count = len(scs)
+  param.save()
+  product = param.product
+  
+  
+  
+  return redirect('/products%s' % product.slug)
 """  
 def ajax_createparameter(request):
   parameterform = CategoryParameterForm(request.POST)
@@ -170,17 +182,20 @@ def ajax_createparameter(request):
   return HttpResponse('success')
 """
 def create_parameter(request):
-  product = Product.objects.get(id=int(request.POST.get('product')))
+  productslug = request.POST['productslug']
+  print productslug
+  product = Product.objects.get(slug=productslug)
   d = copy.deepcopy(request.POST)
-  del d['product']
-  d['slug'] = slugify(d['name'])
-  parameterform = CategoryParameterForm(d)
-  stuff = dir(parameterform)
-  errors = parameterform.errors
-  parameterform.save()
+  #del d['product']
+  #product = Product.objects.get(slug=d['productslug'])
+  ##d['slug'] = slugify(d['name'])
+  #parameterform = CategoryParameterForm(d)
+  #stuff = dir(parameterform)
+  #errors = parameterform.errors
+  #parameterform.save()
+  Parameter(name=d['name'], slug='/'+slugify(d['name']), product=product).save()
   
-  return redirect('/products/%s' % product.slug)
-
+  return redirect('/products%s' % product.slug)
 
 def ajax_createtag(request):
   tagtext = request.POST['tagtext']
@@ -213,7 +228,7 @@ def ajax_createtag(request):
 
 def newcategory(request):
 	if 'submit' in request.POST:
-		slug = slugify(request.POST['name'])
+		slug = '/'+slugify(request.POST['name'])
 		d = copy.deepcopy(request.POST)
 		d['slug'] = slug
 		categoryform = CategoryForm(d)
@@ -302,14 +317,72 @@ def rdf(request, slug):
 @csrf_exempt
 def add_product_fb(request):
   fbid = request.POST['fbid']
-  fbnam = request.POST['fbname']
+  fbname = request.POST['fbname']
   fbtype_id = request.POST['fbtype_id']
   fbtype_name = request.POST['fbtype_name']
+  imgslug = request.POST['imgslug']
   
-  Category.objects.get()
-  #return HttpResponseRedirect('/')
-  return HttpResponse('foo')
+  if not Category.objects.filter(slug=fbtype_id):
+	c = Category(name=fbtype_name, slug=fbtype_id)
+	c.save()
+  else:
+	c = Category.objects.get(slug=fbtype_id)
+  
+  if not Product.objects.filter(slug=fbid):
+	p = Product(slug=fbid, name=fbname, description='x', category=c, imgslug=imgslug)
+	p.save()
+  else:
+	p = Product.objects.get(slug=fbid)
+
+  l = CategoryParameter.objects.filter(category=c)
+  print c
+  print l
+  for param in l:
+	Parameter(name=param.name, slug=param.slug, product=p).save()
+  
+	
+  return HttpResponseRedirect('/products'+fbid)
+  #return HttpResponse('foo')
   
   
   
+def edit_category(request,slug):
+	t = get_template('edit_category.html')
+	c = RequestContext(request,{})
+	c['category'] = Category.objects.get(slug=slug)
+	c['request'] = request
+	c.update(csrf(request))
+	return  HttpResponse(t.render(c))
+ 
+def delete_category_parameter(request):
+  category_slug = request.GET['category_slug']
+  parameter_slug = request.GET['parameter_slug']
+  cat = Category.objects.get(slug=category_slug)
+  CategoryParameter.objects.get(category=cat, slug=parameter_slug).delete()
+  s = CategoryParameter.objects.filter(category=cat, slug=parameter_slug).__str__()
+  #s = Category.objects.filter(slug=category_slug).__str__()
+  #return HttpResponse(s, content_type='text/plain')
+  return HttpResponseRedirect('/edit_category'+category_slug)
+  
+@csrf_exempt
+def create_category_parameter(request):
+  category_slug = request.POST['category_slug']
+  parameter_name = request.POST['parameter_name']
+  parameter_slug = '/'+slugify(parameter_name)
+  
+  
+  cat = Category.objects.get(slug=category_slug)
+  CategoryParameter(category=cat, slug=parameter_slug, name=parameter_name).save()
+  return HttpResponseRedirect('/edit_category'+category_slug)
+
+
+def user(request,username):
+  user = User.objects.get(username	= username)
+  t = get_template('user.html')
+  c = RequestContext(request,{})
+  
+  c['user'] = user
+  c['request'] = request
+  c.update(csrf(request))
+  return  HttpResponse(t.render(c))
   
