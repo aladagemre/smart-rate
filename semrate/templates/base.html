@@ -103,11 +103,11 @@ $(function() {
 </table>
 <a class='menuitem' href='/'>Home</a>
 <a class='menuitem' href='/newproduct'>Create Product</a>
-<a class='menuitem' href='/newcategory'>Create Category</a>
+#<a class='menuitem' href='/newcategory'>Create Category</a>
 <a class='menuitem' href='/categories'>List Categories</a>
 
 {% if user.is_authenticated %}
-	<a style="color:white" href="/messages/inbox">Inbox{% if messages_inbox_count %}{{ messages_inbox_count }} {% endif %}</a>
+	<a style='display: block; color: #6cf; font-size:8pt; margin-left: 20px; margin-top: 5px;' href="/messages/inbox">Inbox{% if messages_inbox_count %}{{ messages_inbox_count }} {% endif %}</a>
 {% endif %}
 
 </div>
