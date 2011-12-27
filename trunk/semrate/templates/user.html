@@ -3,10 +3,10 @@
 
 {% block content %}
 
-<h2> {{user.username}} </h2>
+<h2> {{user_profile.username}} </h2>
 
 
-<img style='width: 130px; height: 100px;' src='/site_media/{{user.username}}.jpg'>
+<img style='width: 130px; height: 100px;' src='/site_media/{{user_profile.username}}.jpg'>
 <br/>
 <br/>
 
@@ -17,7 +17,7 @@ Number of tags: {{tagcount}} <br/>
 
 
 {% if products %}
-<h3>This person has rated following products:</h3>
+<h3>{{user_profile.username}} has rated following products:</h3>
 <table>
 
 {% for pair in products %}
@@ -32,7 +32,7 @@ Number of tags: {{tagcount}} <br/>
 
 </table>
 {% else %}
-This user has not rated any products yet.
+{{user_profile.username}} has not rated any products yet.
 {% endif %}
 
 
