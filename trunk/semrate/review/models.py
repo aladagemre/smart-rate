@@ -9,11 +9,15 @@ class Category(models.Model):
 	"""Category for the products"""
 	name = models.CharField(max_length=20, unique=True)
 	slug = models.SlugField()
+	creator = models.ForeignKey(UserProfile, related_name='category_creator')
+	last_activity = models.ForeignKey(UserProfile, related_name='category_last_editor')
+	last_activity_time = models.DateTimeField()
+	
 
 	def get_params(self):
 	  return CategoryParameter.objects.filter(category=self)
 	def __str__(self):
-		return self.name		
+		return self.name
         
 
 class CategoryParameter(models.Model):
@@ -31,6 +35,9 @@ class Product(models.Model):
   description = models.TextField()
   category = models.ForeignKey(Category)
   imgslug = models.CharField(max_length='256',null=True,blank=True)
+  creator = models.ForeignKey(UserProfile, related_name='product_creator')
+  last_activity = models.ForeignKey(UserProfile, related_name='product_last_editor')
+  last_activity_time = models.DateTimeField()
   
   def clean_fields(self, exclude=[]):
     self.name = self.name.strip()
@@ -48,6 +55,8 @@ class Parameter(models.Model):
   product = models.ForeignKey(Product)
   score_total = models.IntegerField(default=0)
   score_count = models.IntegerField(default=0)
+  def slug_wo(self):
+	return self.slug[1:]
   
   
   def __str__(self):
@@ -117,4 +126,6 @@ class Score(models.Model):
   user = models.ForeignKey(UserProfile)
   value = models.IntegerField()
   param = models.ForeignKey(Parameter)
+  
+	
 

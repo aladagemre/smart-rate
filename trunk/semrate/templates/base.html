@@ -90,12 +90,13 @@ $(function() {
 	  <span style=' margin-left: 20px;'> Logged in as: {{user.username}}  </span><br/>
 	  {% if facebook_id %}
 		<img src="https://graph.facebook.com/{{facebook_id}}/picture"/>
-	  {% endif %}
-			<a style='display: block; color: #6cf; font-size:8pt; margin-left: 20px; margin-top: 5px;' href="/accounts/logout/" class='discrete_link'>[logout]</a>
+	  {% endif %}<br/>
+			<a style='color: #6cf; font-size:8pt; margin-left: 20px; margin-top: 5px;' href="/accounts/logout/" class='discrete_link'>[logout]</a>
+	  <a class='discrete_link' style='color: #6cf; font-size:8pt; margin-left: 20px; margin-top: 5px;' href="/user/{{request.user}}">[Profile]</a> <br/>
 		{% else %}
 	  
 	  <span style=' margin-left: 20px;'> Not logged in. </span><br/>
-	  <a class='discrete_link' style='display: block; color: #6cf; font-size:8pt; margin-left: 20px; margin-top: 5px;' href="/accounts/login/">[Login]</a> <br/>
+	  <a class='discrete_link' style='display: block; color: #6cf; font-size:8pt; margin-left: 20px; margin-top: 5px;' href="/accounts/login/">[Login]</a>
 		{% endif %}
 	</td>
   </tr>

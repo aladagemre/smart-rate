@@ -305,7 +305,8 @@ th {
   padding: 5px 15px;
 }
 
-
-
-
-
+#last_activity_table {
+  text-align: center;
+  font-size: 9pt;
+  
+}
