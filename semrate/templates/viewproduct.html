@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% load humanize %}
 {% block title%} SemRate - {{product.name}} {% endblock %}
 
 {% block content %}
@@ -203,8 +202,8 @@ Rating is done on a 0 to 5 scale, with 5 being best.
 <td> {{product.last_activity }} </td>
 </tr>
 <tr>
-<td> {{product.created_time|naturalday}} </td>
-<td> {{product.last_activity_time|naturalday }} </td>
+<td> {{product.created_time }} </td>
+<td> {{product.last_activity_time }} </td>
 </tr>
 </table>
 

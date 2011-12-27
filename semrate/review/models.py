@@ -128,5 +128,6 @@ class Score(models.Model):
   value = models.IntegerField()
   param = models.ForeignKey(Parameter)
   
-	
-
+#import member.UserProfile
+#class UserProfile(member.UserProfile):
+  #pass
