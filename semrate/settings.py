@@ -2,6 +2,8 @@
 import os
 from fbsettings import FACEBOOK_APP_ID, FACEBOOK_APP_SECRET
 
+APPEND_SLASH = False
+
 
 PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
 ACCOUNT_ACTIVATION_DAYS = 2

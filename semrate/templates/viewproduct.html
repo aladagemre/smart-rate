@@ -61,9 +61,32 @@ function toggleAddParameter() {
 
 $(localinit);
 </script>
-<h2>{{ product.name }}</h2>
-<tiny><a href="/rdf/{{product.slug}}">RDF</a></tiny>
+<br/>
+<table style='width: 700px;'> 
+  <tr>
+  <td style='width: 550px; vertical-align: top;'>
+  <h2>{{ product.name }}</h2>
+
+{% comment %}
 <p><tiny>{% if overall_score %}Overall Score: {{ overall_score }}{% else %}Not rated yet.{% endif %}</tiny></p>
+{% endcomment %}
+
+<div id='rating'>
+Rating
+<div id='rating_inside'>
+{{ overall_score }}
+</div>
+</div>
+
+  </td>
+  <td>
+  <img src='http://img.freebase.com/api/trans/image_thumb{{product.imgslug}}?maxheight=150&mode=fit&maxwidth=150'/><br/>
+  </td>
+  </tr>
+</table>
+
+
+
 
 <p>
 Rating is done on a 0 to 5 scale, with 5 being best. 
@@ -79,15 +102,15 @@ Rating is done on a 0 to 5 scale, with 5 being best.
 
 <tr id='{{ param.slug }}_summary_row'>
   <th class='st_bar'> 
-    {{ param.category_parameter.name }} <br/>
+    {{ param.name }} <br/>
 	{% if user.is_authenticated %}
 	  <a class='tinybtn' href="javascript:toggleCurtain('{{ param.slug }}');"> [Rate!] </a> 
 	{% else %}
 	{% endif %}
   </th>
-  <td class='st_bar' id='{{ param.slug }}_score'> {{ param.get_score }} (by {{ param.score_count}}) </td>
-  <td  id='{{param.slug}}_taglist_neg' class='st_bar'> {% for tag in param.get_tags_neg %} <span class='tag_neg'>{{tag.tagtext}} ({{tag.tagtext__count}})</span> {% endfor %} </td>
-  <td  id='{{param.slug}}_taglist_pos' class='st_bar'> {% for tag in param.get_tags_pos %} <span class='tag_pos'>{{tag.tagtext}} ({{tag.tagtext__count}})</span> {% endfor %} </td>
+  <td class='st_bar' id='{{ param.slug }}_score'> {{ param.get_score }} <span style='font-size: 8pt;'>(by {{ param.score_count}})</span> </td>
+  <td  id='{{param.slug}}_taglist_neg' class='st_bar'> {% for tag in param.get_tags_neg %} <span class='tag_neg'>{{tag.tagtext}} {% if tag.tagtext__count != 1 %} ({{tag.tagtext__count}}){% endif %}</span> {% endfor %} </td>
+  <td  id='{{param.slug}}_taglist_pos' class='st_bar'> {% for tag in param.get_tags_pos %} <span class='tag_pos'>{{tag.tagtext}} {% if tag.tagtext__count != 1 %} ({{tag.tagtext__count}}){% endif %}</span> {% endfor %} </td>
 </tr>
 <tr style='display: none;' id='{{ param.slug }}_summary_curtain' class='summary_curtain'>
   <th class='st_curtain'>  </th>
@@ -137,7 +160,7 @@ Rating is done on a 0 to 5 scale, with 5 being best.
 <br/>
 <br/>
 
-<a class='tinybtn' href='javascript:toggleAddParameter();'>[add parameter]</a>
+<a class='tinybtn' href='javascript:toggleAddParameter();'>[add parameter]</a> 
 
 <div id='addParameterDiv'>
 <h2> Create a new Parameter </h2>
@@ -145,8 +168,8 @@ Rating is done on a 0 to 5 scale, with 5 being best.
 {% csrf_token %}
 <p>Name:<br/>
 {{ parameterform.name }}<br/>
-<input name='category' type='hidden' value='{{product.category.id}}'/><br/>
-<input name='product' type='hidden' value='{{product.id}}'/><br/>
+<!-- <input name='category' type='hidden' value='{{product.category.id}}'/><br/> -->
+<input name='productslug' type='hidden' value='{{product.slug}}'/><br/>
 
 <!--<a href='javascript:createParameter()' class='btn'> Submit </a>-->
 <input type="submit" value="Create"/>
@@ -154,7 +177,8 @@ Rating is done on a 0 to 5 scale, with 5 being best.
 </form>
 </div>
 
-
+<br/><br/>
+<a class='discrete_link' style='font-size: 8pt;' href="/rdf/{{product.slug}}">[RDF]</a>
 
 
 {% endblock %}

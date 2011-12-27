@@ -10,6 +10,8 @@ class Category(models.Model):
 	name = models.CharField(max_length=20, unique=True)
 	slug = models.SlugField()
 
+	def get_params(self):
+	  return CategoryParameter.objects.filter(category=self)
 	def __str__(self):
 		return self.name		
         
@@ -28,6 +30,7 @@ class Product(models.Model):
   name = models.CharField(max_length=32, unique=True)
   description = models.TextField()
   category = models.ForeignKey(Category)
+  imgslug = models.CharField(max_length='256',null=True,blank=True)
   
   def clean_fields(self, exclude=[]):
     self.name = self.name.strip()
@@ -36,12 +39,12 @@ class Product(models.Model):
     return self.name
 
 class Parameter(models.Model):
-  #name = models.CharField(max_length=32)
+  name = models.CharField(max_length=32)
   # "simple name", 
   #the name with _ and lowercase, used for ids and stuff
   slug = models.CharField(max_length=32) 
   #description = models.TextField()
-  category_parameter = models.ForeignKey(CategoryParameter)
+  #category_parameter = models.ForeignKey(CategoryParameter)
   product = models.ForeignKey(Product)
   score_total = models.IntegerField(default=0)
   score_count = models.IntegerField(default=0)
@@ -60,7 +63,7 @@ class Parameter(models.Model):
     return Tag.objects.filter(parameter=self, charge=1).values('tagtext').order_by().annotate(Count('tagtext'))
   def get_score(self):
 	if not self.score_count:
-		return 0
+		return '-'
 	return "%.2f" % (float(self.score_total) / self.score_count)
   
   @property
@@ -110,5 +113,8 @@ class CategoryForm(forms.ModelForm):
 
 # Create your models here.
 
-
+class Score(models.Model):
+  user = models.ForeignKey(UserProfile)
+  value = models.IntegerField()
+  param = models.ForeignKey(Parameter)
 

@@ -31,7 +31,7 @@ urlpatterns = patterns('',
     url(r'^newproduct$', 'review.views.newproduct'),
 	url(r'^newcategory$', 'review.views.newcategory'),
 	url(r'^categories$', 'review.views.categories'),
-	url(r'^category/(?P<slug>.*)$', 'review.views.category'),
+	url(r'^category(?P<slug>.*)$', 'review.views.category'),
     url(r'^$', 'review.views.index'),
     
     #url(r'^ajax_createparameter$', 'review.views.ajax_createparameter'),
@@ -40,7 +40,7 @@ urlpatterns = patterns('',
     url(r'^rate_parameter$', 'review.views.rate_parameter'),
     
     
-    url(r'^products/(?P<path>.*)/$', 'review.views.viewproduct', {}),
+	url(r'^products(?P<path>.*)$', 'review.views.viewproduct', {}),
     url(r'^search/$', 'review.views.searchproduct', {}),
     
     url(r'^login', 'review.views.login'),
@@ -49,4 +49,12 @@ urlpatterns = patterns('',
     
     url(r'add_product_fb','review.views.add_product_fb'),
 
+	url(r'^edit_category(?P<slug>.*)$', 'review.views.edit_category'),
+
+	url(r'delete_category_parameter', 'review.views.delete_category_parameter'),
+
+	url(r'create_category_parameter', 'review.views.create_category_parameter'),
+	url(r'user/(?P<username>.*)$', 'review.views.user'),
+
+    
 )
