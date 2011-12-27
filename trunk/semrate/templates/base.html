@@ -83,17 +83,17 @@ $(function() {
 <div id='header'>
 <table id='headertable'>
   <tr>
-	<td style='width: 150px;'></td>
+	<td style='width: 100px;'></td>
 	<td style='width: 400px;'><h1 class='header_heading'> SemRate </h1></td>
-	<td style='width: 150px;' style='vertical-align: top;'>
+	<td style='width: 200px;' style='vertical-align: top;'>
 		{% if user.is_authenticated %}
 	  <span style=' margin-left: 20px;'> Logged in as: {{user.username}}  </span><br/>
 	  {% if facebook_id %}
 		<img src="https://graph.facebook.com/{{facebook_id}}/picture"/>
 	  {% endif %}<br/>
-			<a style='color: #6cf; font-size:8pt; margin-left: 20px; margin-top: 5px;' href="/accounts/logout/" class='discrete_link'>[Logout]</a>
-<a style='color: #6cf; font-size:8pt; margin-left: 20px; margin-top: 5px;' href="/accounts/inbox/" class='discrete_link'>[Inbox]{% if messages_inbox_count %}{{ messages_inbox_count }} {% endif %}</a>
-	  <a class='discrete_link' style='color: #6cf; font-size:8pt; margin-left: 20px; margin-top: 5px;' href="/user/{{request.user}}">[Profile]</a> <br/>
+			<a class='discrete_link' style='color: #6cf; font-size:8pt; margin-left: 20px; margin-top: 5px;' href="/accounts/logout/">[Logout]</a>
+            <a class='discrete_link' style='color: #6cf; font-size:8pt; margin-left: 5px; margin-top: 5px;' href="/accounts/inbox/" >[Inbox]{% if messages_inbox_count %}{{ messages_inbox_count }} {% endif %}</a>
+	        <a class='discrete_link' style='color: #6cf; font-size:8pt; margin-left: 5px; margin-top: 5px;' href="/user/{{request.user}}">[Profile]</a> <br/>
 		{% else %}
 	  
 	  <span style=' margin-left: 20px;'> Not logged in. </span><br/>
@@ -106,9 +106,6 @@ $(function() {
 <a class='menuitem' href='/newproduct'>Create Product</a>
 <a class='menuitem' href='/categories'>List Categories</a>
 
-{% if user.is_authenticated %}
-	<a style='display: block; color: #6cf; font-size:8pt; margin-left: 20px; margin-top: 5px;' href="/messages/inbox">Inbox{% if messages_inbox_count %}{{ messages_inbox_count }} {% endif %}</a>
-{% endif %}
 
 </div>
 
