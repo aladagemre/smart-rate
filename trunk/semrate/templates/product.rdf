@@ -8,7 +8,7 @@
 	<sm:parameter>
 		<sm:parametername>{{parameter.category_parameter.name}}</sm:parametername>
 		<sm:parameterrating>{{parameter.get_score}}</sm:parameterrating>
-		{% for tag in parameter.tags %}
+		{% for tag in parameter.tag_set.all %}
 		<sm:tag>{{tag}}</sm:tag>
 		{% endfor %}
 	</sm:parameter>
