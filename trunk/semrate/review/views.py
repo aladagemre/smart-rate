@@ -320,6 +320,7 @@ def notable_for(request):
   
   
 def rdf(request, slug):
+	print slug
 	product = Product.objects.get(slug=slug)
 	parameters = Parameter.objects.filter(product=product)
 	return render_to_response("product.rdf", {
@@ -402,19 +403,29 @@ def tag_count_of_user(userprofile):
 def products_rated_of_user(userprofile):
   scores = Score.objects.filter(user=userprofile)
   params = [x.param for x in scores]
-  products = [param.product for param in params]
+  products = []
+  for param in params:
+	scs = Score.objects.filter(user=userprofile, param=param)
+	if scs:
+	  rating = scs[0]
+	else:
+	  rating = '-'
+	d = {
+	  'product' : param.product,
+	  'rating' : scs,
+	}
+	products.append( d )
   return products
 
 def user(request,username):
   user = User.objects.get(username	= username)
   t = get_template('user.html')
   c = RequestContext(request,{})
-  
-  
+
   c['user'] = user
   c['request'] = request
   c['tagcount'] = tag_count_of_user(user.userprofile)
   c['products'] = products_rated_of_user(user.userprofile)
   c.update(csrf(request))
   return  HttpResponse(t.render(c))
-  
+
