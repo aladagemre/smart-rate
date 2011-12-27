@@ -271,7 +271,7 @@ def category(request, slug):
 	t = get_template("products_of_category.html")
 	c = RequestContext(request,{})
 	c['category'] = category
-	c['produccts'] = products
+	c['products'] = products
 	return HttpResponse(t.render(c))
 
 
