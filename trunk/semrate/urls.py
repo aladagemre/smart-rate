@@ -1,4 +1,5 @@
 from django.conf.urls.defaults import patterns, include, url
+from django.http import HttpResponse
 import os
 import settings
 
@@ -55,6 +56,7 @@ urlpatterns = patterns('',
 
 	url(r'create_category_parameter', 'review.views.create_category_parameter'),
 	url(r'user/(?P<username>.*)$', 'review.views.user'),
+	url(r'^robots\.txt$', lambda r: HttpResponse("User-agent: *\nDisallow: /", mimetype="text/plain"))
 
     
 )
