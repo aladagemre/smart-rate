@@ -418,14 +418,18 @@ def products_rated_of_user(userprofile):
   return products
 
 def user(request,username):
-  user = User.objects.get(username	= username)
+  user_profile = User.objects.get(username	= username)
   t = get_template('user.html')
   c = RequestContext(request,{})
-
-  c['user'] = user
+  
+  is_owner = user_profile == request.user # see if we are the owner of this profile
+    
+  
+  c['user_profile'] = user_profile
   c['request'] = request
-  c['tagcount'] = tag_count_of_user(user.userprofile)
-  c['products'] = products_rated_of_user(user.userprofile)
+  c['tagcount'] = tag_count_of_user(user_profile.userprofile)
+  c['products'] = products_rated_of_user(user_profile.userprofile)
+  c['is_owner'] = is_owner
   c.update(csrf(request))
   return  HttpResponse(t.render(c))
 
