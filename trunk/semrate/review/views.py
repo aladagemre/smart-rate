@@ -440,8 +440,10 @@ def user(request,username):
   if request.user.is_authenticated():
     is_following = request.user.get_profile().following.filter(user__username = user_profile.username)
     following_list = user_profile.get_profile().following.all()
+    follower_list = user_profile.get_profile().follower.all()
     c['is_following'] = is_following
     c['following_list'] = following_list
+    c['follower_list'] = follower_list
 
   c.update(csrf(request))
   return  HttpResponse(t.render(c))
