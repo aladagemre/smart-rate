@@ -8,6 +8,7 @@ class UserProfile(FacebookProfileModel):
     Inherit the properties from django facebook
     '''
     user = models.OneToOneField(User)
+    following = models.ManyToManyField('UserProfile', related_name='fan')
 
     
 from django.db.models.signals import post_save

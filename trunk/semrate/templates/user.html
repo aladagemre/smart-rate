@@ -7,20 +7,40 @@
 
 
 <img style='width: 130px; height: 100px;' src='/site_media/{{user_profile.username}}.jpg'>
+
+{% if user.is_authenticated %}
+
 {% if is_owner %}
 
 <a href="/accounts/password/change/">Change Password</a>
-
+{% else %}
+	{% if is_following %}
+	You are following {{user_profile.username}}. <a href="/unfollow/{{user_profile.username}}">Unfollow</a>
+	{% else %}
+	<a href="/follow/{{user_profile.username}}">Follow {{user_profile.username}}</a>
+	{% endif %}
 {% endif %}
+
+{% endif %} <!-- end of user authenticated -->
 <br/>
-<br/>
+<br>
 
 Number of tags: {{tagcount}} <br/>
 
 <br/>
 <br/>
+<p>
+{% if following_list %}
+	Following:
+	{% for person in following_list %}
+		<a href="/user/{{person.user.username}}">{{person.user.username}}</a> &nbsp
+	{% endfor %}
+{% else %}
+	{{ user_profile.username}} is not following anyone.
+{% endif %}
+</p>
 
-
+<p>
 {% if products %}
 <h3>{{user_profile.username}} has rated following products:</h3>
 <table>
@@ -39,6 +59,6 @@ Number of tags: {{tagcount}} <br/>
 {% else %}
 {{user_profile.username}} has not rated any products yet.
 {% endif %}
-
+</p>
 
 {% endblock %}
