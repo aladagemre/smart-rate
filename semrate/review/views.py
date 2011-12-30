@@ -423,13 +423,57 @@ def user(request,username):
   c = RequestContext(request,{})
   
   is_owner = user_profile == request.user # see if we are the owner of this profile
-    
-  
+
+
+
   c['user_profile'] = user_profile
   c['request'] = request
   c['tagcount'] = tag_count_of_user(user_profile.userprofile)
   c['products'] = products_rated_of_user(user_profile.userprofile)
   c['is_owner'] = is_owner
+
+  if request.user.is_authenticated():
+    is_following = request.user.get_profile().following.filter(user__username = user_profile.username)
+    following_list = user_profile.get_profile().following.all()
+    c['is_following'] = is_following
+    c['following_list'] = following_list
+
   c.update(csrf(request))
   return  HttpResponse(t.render(c))
+
+def follow(request, username):
+	visitor_profile = request.user.get_profile()
+	page_owner = User.objects.get(username=username)
+	page_owner_profile = page_owner.get_profile()
+
+	if not visitor_profile.following.filter(user = page_owner):
+		visitor_profile.following.add(page_owner_profile)
+	return HttpResponseRedirect('/user/%s' % username)
+
+def unfollow(request, username):
+        visitor_profile = request.user.get_profile()
+        page_owner = User.objects.get(username=username)
+        page_owner_profile = page_owner.get_profile()
+
+        if visitor_profile.following.filter(user__username = page_owner.username):
+                visitor_profile.following.remove(page_owner_profile)
+	else:
+		raise
+        
+	return HttpResponseRedirect('/user/%s' % username)
+
+
+
+
+from fbconnect.fbutils import connect
+
+def fbtest(request):
+	fbgraph,access_token = connect(request)
+		
+	context = {
+		'access_token':access_token,			
+		}
+			
+	return render_to_response('fbtest.html', context, 
+		context_instance=RequestContext(request))
 

@@ -1,5 +1,4 @@
 from django.conf.urls.defaults import patterns, include, url
-from django.http import HttpResponse
 import os
 import settings
 
@@ -48,15 +47,17 @@ urlpatterns = patterns('',
     url(r'^notable_for', 'review.views.notable_for'),
     url(r'^rdf(?P<slug>.*)$', 'review.views.rdf', {}),
     
-    url(r'add_product_fb','review.views.add_product_fb'),
+    url(r'^add_product_fb','review.views.add_product_fb'),
 
 	url(r'^edit_category(?P<slug>.*)$', 'review.views.edit_category'),
 
-	url(r'delete_category_parameter', 'review.views.delete_category_parameter'),
+	url(r'^delete_category_parameter', 'review.views.delete_category_parameter'),
 
-	url(r'create_category_parameter', 'review.views.create_category_parameter'),
-	url(r'user/(?P<username>.*)$', 'review.views.user'),
-	url(r'^robots\.txt$', lambda r: HttpResponse("User-agent: *\nDisallow: /", mimetype="text/plain"))
+	url(r'^create_category_parameter', 'review.views.create_category_parameter'),
+	url(r'^user/(?P<username>.*)$', 'review.views.user'),
+	url(r'^follow/(?P<username>.*)$', 'review.views.follow'),
+	url(r'^unfollow/(?P<username>.*)$', 'review.views.unfollow'),
+	url(r'^fbtest$', 'review.views.fbtest'),
 
     
 )
