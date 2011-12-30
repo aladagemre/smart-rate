@@ -261,9 +261,14 @@ def newcategory(request):
 	
 def categories(request):
 	categories = Category.objects.all()
-	return render_to_response("categories.html", {
+
+	t = get_template("categories.html")
+
+	c = RequestContext(request,{
 		'categories': categories,
 	})
+	return HttpResponse(t.render(c)
+)
 def category(request, slug):
 	category = Category.objects.get(slug=slug)
 	products = Product.objects.filter(category=category)
