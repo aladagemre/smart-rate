@@ -41,6 +41,19 @@ Number of tags: {{tagcount}} <br/>
 </p>
 
 <p>
+{% if follower_list %}
+        Followed by:
+        {% for person in follower_list %}
+                <a href="/user/{{person.user.username}}">{{person.user.username}}</a> &nbsp
+        {% endfor %}
+{% else %}
+        {{ user_profile.username}} is not followed by anyone.
+{% endif %}
+</p>
+
+
+
+<p>
 {% if products %}
 <h3>{{user_profile.username}} has rated following products:</h3>
 <table>
