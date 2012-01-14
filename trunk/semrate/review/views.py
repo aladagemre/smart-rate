@@ -476,6 +476,7 @@ def user(request,username):
   return  HttpResponse(t.render(c))
 
 def follow(request, username):
+	"""Lets the logged in user to follow the given username"""
 	visitor_profile = request.user.get_profile()
 	page_owner = User.objects.get(username=username)
 	page_owner_profile = page_owner.get_profile()
@@ -485,6 +486,7 @@ def follow(request, username):
 	return HttpResponseRedirect('/user/%s' % username)
 
 def unfollow(request, username):
+	"""Lets the logged in user to unfollow the given username"""
         visitor_profile = request.user.get_profile()
         page_owner = User.objects.get(username=username)
         page_owner_profile = page_owner.get_profile()
@@ -495,18 +497,3 @@ def unfollow(request, username):
 		raise
         
 	return HttpResponseRedirect('/user/%s' % username)
-
-
-
-
-from fbconnect.fbutils import connect
-
-def fbtest(request):
-	fbgraph,access_token = connect(request)
-		
-	context = {
-		'access_token':access_token,			
-		}
-			
-	return render_to_response('fbtest.html', context, 
-		context_instance=RequestContext(request))
