@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>semrate.review.admin</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="semrate.review-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        Package&nbsp;semrate ::
+        <a href="semrate.review-module.html">Package&nbsp;review</a> ::
+        Module&nbsp;admin
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="semrate.review.admin-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="semrate.review.admin-module.html">Module semrate.review.admin</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno"> 1</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">contrib</tt> <tt class="py-keyword">import</tt> <tt id="link-0" class="py-name" targets="Module semrate.review.admin=semrate.review.admin-module.html"><a title="semrate.review.admin" class="py-name" href="#" onclick="return doclink('link-0', 'admin', 'link-0');">admin</a></tt> </tt>
+<a name="L2"></a><tt class="py-lineno"> 2</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-1" class="py-name" targets="Package semrate.review=semrate.review-module.html"><a title="semrate.review" class="py-name" href="#" onclick="return doclink('link-1', 'review', 'link-1');">review</a></tt><tt class="py-op">.</tt><tt id="link-2" class="py-name" targets="Module semrate.review.models=semrate.review.models-module.html"><a title="semrate.review.models" class="py-name" href="#" onclick="return doclink('link-2', 'models', 'link-2');">models</a></tt> <tt class="py-keyword">import</tt> <tt id="link-3" class="py-name" targets="Class semrate.review.models.Product=semrate.review.models.Product-class.html"><a title="semrate.review.models.Product" class="py-name" href="#" onclick="return doclink('link-3', 'Product', 'link-3');">Product</a></tt><tt class="py-op">,</tt> <tt id="link-4" class="py-name" targets="Class semrate.review.models.Parameter=semrate.review.models.Parameter-class.html"><a title="semrate.review.models.Parameter" class="py-name" href="#" onclick="return doclink('link-4', 'Parameter', 'link-4');">Parameter</a></tt><tt class="py-op">,</tt> <tt id="link-5" class="py-name" targets="Class semrate.review.models.Tag=semrate.review.models.Tag-class.html"><a title="semrate.review.models.Tag" class="py-name" href="#" onclick="return doclink('link-5', 'Tag', 'link-5');">Tag</a></tt><tt class="py-op">,</tt> <tt id="link-6" class="py-name" targets="Class semrate.review.models.Category=semrate.review.models.Category-class.html"><a title="semrate.review.models.Category" class="py-name" href="#" onclick="return doclink('link-6', 'Category', 'link-6');">Category</a></tt><tt class="py-op">,</tt> <tt id="link-7" class="py-name" targets="Class semrate.review.models.CategoryParameter=semrate.review.models.CategoryParameter-class.html"><a title="semrate.review.models.CategoryParameter" class="py-name" href="#" onclick="return doclink('link-7', 'CategoryParameter', 'link-7');">CategoryParameter</a></tt> </tt>
+<a name="L3"></a><tt class="py-lineno"> 3</tt>  <tt class="py-line"> </tt>
+<a name="ProductAdmin"></a><div id="ProductAdmin-def"><a name="L4"></a><tt class="py-lineno"> 4</tt> <a class="py-toggle" href="#" id="ProductAdmin-toggle" onclick="return toggle('ProductAdmin');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="semrate.review.admin.ProductAdmin-class.html">ProductAdmin</a><tt class="py-op">(</tt><tt class="py-base-class">admin</tt><tt class="py-op">.</tt><tt class="py-base-class">ModelAdmin</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="ProductAdmin-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="ProductAdmin-expanded"><a name="L5"></a><tt class="py-lineno"> 5</tt>  <tt class="py-line">    <tt id="link-8" class="py-name" targets="Variable semrate.review.admin.CategoryAdmin.list_display=semrate.review.admin.CategoryAdmin-class.html#list_display,Variable semrate.review.admin.CategoryParameterAdmin.list_display=semrate.review.admin.CategoryParameterAdmin-class.html#list_display,Variable semrate.review.admin.ParameterAdmin.list_display=semrate.review.admin.ParameterAdmin-class.html#list_display,Variable semrate.review.admin.ProductAdmin.list_display=semrate.review.admin.ProductAdmin-class.html#list_display,Variable semrate.review.admin.TagAdmin.list_display=semrate.review.admin.TagAdmin-class.html#list_display"><a title="semrate.review.admin.CategoryAdmin.list_display
+semrate.review.admin.CategoryParameterAdmin.list_display
+semrate.review.admin.ParameterAdmin.list_display
+semrate.review.admin.ProductAdmin.list_display
+semrate.review.admin.TagAdmin.list_display" class="py-name" href="#" onclick="return doclink('link-8', 'list_display', 'link-8');">list_display</a></tt> <tt class="py-op">=</tt> <tt class="py-op">(</tt><tt class="py-string">'id'</tt><tt class="py-op">,</tt><tt class="py-string">'slug'</tt><tt class="py-op">,</tt><tt class="py-string">'name'</tt><tt class="py-op">,</tt><tt class="py-string">'category'</tt><tt class="py-op">,</tt><tt class="py-string">'imgslug'</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L6"></a><tt class="py-lineno"> 6</tt>  <tt class="py-line"><tt id="link-9" class="py-name"><a title="semrate.review.admin" class="py-name" href="#" onclick="return doclink('link-9', 'admin', 'link-0');">admin</a></tt><tt class="py-op">.</tt><tt class="py-name">site</tt><tt class="py-op">.</tt><tt class="py-name">register</tt><tt class="py-op">(</tt><tt id="link-10" class="py-name"><a title="semrate.review.models.Product" class="py-name" href="#" onclick="return doclink('link-10', 'Product', 'link-3');">Product</a></tt><tt class="py-op">,</tt> <tt id="link-11" class="py-name" targets="Class semrate.review.admin.ProductAdmin=semrate.review.admin.ProductAdmin-class.html"><a title="semrate.review.admin.ProductAdmin" class="py-name" href="#" onclick="return doclink('link-11', 'ProductAdmin', 'link-11');">ProductAdmin</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L7"></a><tt class="py-lineno"> 7</tt>  <tt class="py-line"> </tt>
+<a name="ParameterAdmin"></a><div id="ParameterAdmin-def"><a name="L8"></a><tt class="py-lineno"> 8</tt> <a class="py-toggle" href="#" id="ParameterAdmin-toggle" onclick="return toggle('ParameterAdmin');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="semrate.review.admin.ParameterAdmin-class.html">ParameterAdmin</a><tt class="py-op">(</tt><tt class="py-base-class">admin</tt><tt class="py-op">.</tt><tt class="py-base-class">ModelAdmin</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="ParameterAdmin-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="ParameterAdmin-expanded"><a name="L9"></a><tt class="py-lineno"> 9</tt>  <tt class="py-line">    <tt id="link-12" class="py-name"><a title="semrate.review.admin.CategoryAdmin.list_display
+semrate.review.admin.CategoryParameterAdmin.list_display
+semrate.review.admin.ParameterAdmin.list_display
+semrate.review.admin.ProductAdmin.list_display
+semrate.review.admin.TagAdmin.list_display" class="py-name" href="#" onclick="return doclink('link-12', 'list_display', 'link-8');">list_display</a></tt> <tt class="py-op">=</tt> <tt class="py-op">(</tt><tt class="py-string">'id'</tt><tt class="py-op">,</tt><tt class="py-string">'slug'</tt><tt class="py-op">,</tt> <tt class="py-string">'name'</tt><tt class="py-op">,</tt> <tt class="py-string">'product'</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L10"></a><tt class="py-lineno">10</tt>  <tt class="py-line"><tt id="link-13" class="py-name"><a title="semrate.review.admin" class="py-name" href="#" onclick="return doclink('link-13', 'admin', 'link-0');">admin</a></tt><tt class="py-op">.</tt><tt class="py-name">site</tt><tt class="py-op">.</tt><tt class="py-name">register</tt><tt class="py-op">(</tt><tt id="link-14" class="py-name"><a title="semrate.review.models.Parameter" class="py-name" href="#" onclick="return doclink('link-14', 'Parameter', 'link-4');">Parameter</a></tt><tt class="py-op">,</tt> <tt id="link-15" class="py-name" targets="Class semrate.review.admin.ParameterAdmin=semrate.review.admin.ParameterAdmin-class.html"><a title="semrate.review.admin.ParameterAdmin" class="py-name" href="#" onclick="return doclink('link-15', 'ParameterAdmin', 'link-15');">ParameterAdmin</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L11"></a><tt class="py-lineno">11</tt>  <tt class="py-line"> </tt>
+<a name="TagAdmin"></a><div id="TagAdmin-def"><a name="L12"></a><tt class="py-lineno">12</tt> <a class="py-toggle" href="#" id="TagAdmin-toggle" onclick="return toggle('TagAdmin');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="semrate.review.admin.TagAdmin-class.html">TagAdmin</a><tt class="py-op">(</tt><tt class="py-base-class">admin</tt><tt class="py-op">.</tt><tt class="py-base-class">ModelAdmin</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="TagAdmin-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="TagAdmin-expanded"><a name="L13"></a><tt class="py-lineno">13</tt>  <tt class="py-line">    <tt id="link-16" class="py-name"><a title="semrate.review.admin.CategoryAdmin.list_display
+semrate.review.admin.CategoryParameterAdmin.list_display
+semrate.review.admin.ParameterAdmin.list_display
+semrate.review.admin.ProductAdmin.list_display
+semrate.review.admin.TagAdmin.list_display" class="py-name" href="#" onclick="return doclink('link-16', 'list_display', 'link-8');">list_display</a></tt> <tt class="py-op">=</tt> <tt class="py-op">(</tt><tt class="py-string">'id'</tt><tt class="py-op">,</tt><tt class="py-string">'parameter'</tt><tt class="py-op">,</tt><tt class="py-string">'tagtext'</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L14"></a><tt class="py-lineno">14</tt>  <tt class="py-line"><tt id="link-17" class="py-name"><a title="semrate.review.admin" class="py-name" href="#" onclick="return doclink('link-17', 'admin', 'link-0');">admin</a></tt><tt class="py-op">.</tt><tt class="py-name">site</tt><tt class="py-op">.</tt><tt class="py-name">register</tt><tt class="py-op">(</tt><tt id="link-18" class="py-name"><a title="semrate.review.models.Tag" class="py-name" href="#" onclick="return doclink('link-18', 'Tag', 'link-5');">Tag</a></tt><tt class="py-op">,</tt> <tt id="link-19" class="py-name" targets="Class semrate.review.admin.TagAdmin=semrate.review.admin.TagAdmin-class.html"><a title="semrate.review.admin.TagAdmin" class="py-name" href="#" onclick="return doclink('link-19', 'TagAdmin', 'link-19');">TagAdmin</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L15"></a><tt class="py-lineno">15</tt>  <tt class="py-line"> </tt>
+<a name="CategoryAdmin"></a><div id="CategoryAdmin-def"><a name="L16"></a><tt class="py-lineno">16</tt> <a class="py-toggle" href="#" id="CategoryAdmin-toggle" onclick="return toggle('CategoryAdmin');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="semrate.review.admin.CategoryAdmin-class.html">CategoryAdmin</a><tt class="py-op">(</tt><tt class="py-base-class">admin</tt><tt class="py-op">.</tt><tt class="py-base-class">ModelAdmin</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="CategoryAdmin-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="CategoryAdmin-expanded"><a name="L17"></a><tt class="py-lineno">17</tt>  <tt class="py-line">    <tt id="link-20" class="py-name"><a title="semrate.review.admin.CategoryAdmin.list_display
+semrate.review.admin.CategoryParameterAdmin.list_display
+semrate.review.admin.ParameterAdmin.list_display
+semrate.review.admin.ProductAdmin.list_display
+semrate.review.admin.TagAdmin.list_display" class="py-name" href="#" onclick="return doclink('link-20', 'list_display', 'link-8');">list_display</a></tt> <tt class="py-op">=</tt> <tt class="py-op">(</tt><tt class="py-string">'id'</tt><tt class="py-op">,</tt><tt class="py-string">'name'</tt><tt class="py-op">,</tt><tt class="py-string">'slug'</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L18"></a><tt class="py-lineno">18</tt>  <tt class="py-line"><tt id="link-21" class="py-name"><a title="semrate.review.admin" class="py-name" href="#" onclick="return doclink('link-21', 'admin', 'link-0');">admin</a></tt><tt class="py-op">.</tt><tt class="py-name">site</tt><tt class="py-op">.</tt><tt class="py-name">register</tt><tt class="py-op">(</tt><tt id="link-22" class="py-name"><a title="semrate.review.models.Category" class="py-name" href="#" onclick="return doclink('link-22', 'Category', 'link-6');">Category</a></tt><tt class="py-op">,</tt> <tt id="link-23" class="py-name" targets="Class semrate.review.admin.CategoryAdmin=semrate.review.admin.CategoryAdmin-class.html"><a title="semrate.review.admin.CategoryAdmin" class="py-name" href="#" onclick="return doclink('link-23', 'CategoryAdmin', 'link-23');">CategoryAdmin</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L19"></a><tt class="py-lineno">19</tt>  <tt class="py-line"> </tt>
+<a name="L20"></a><tt class="py-lineno">20</tt>  <tt class="py-line"> </tt>
+<a name="CategoryParameterAdmin"></a><div id="CategoryParameterAdmin-def"><a name="L21"></a><tt class="py-lineno">21</tt> <a class="py-toggle" href="#" id="CategoryParameterAdmin-toggle" onclick="return toggle('CategoryParameterAdmin');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="semrate.review.admin.CategoryParameterAdmin-class.html">CategoryParameterAdmin</a><tt class="py-op">(</tt><tt class="py-base-class">admin</tt><tt class="py-op">.</tt><tt class="py-base-class">ModelAdmin</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="CategoryParameterAdmin-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="CategoryParameterAdmin-expanded"><a name="L22"></a><tt class="py-lineno">22</tt>  <tt class="py-line">    <tt id="link-24" class="py-name"><a title="semrate.review.admin.CategoryAdmin.list_display
+semrate.review.admin.CategoryParameterAdmin.list_display
+semrate.review.admin.ParameterAdmin.list_display
+semrate.review.admin.ProductAdmin.list_display
+semrate.review.admin.TagAdmin.list_display" class="py-name" href="#" onclick="return doclink('link-24', 'list_display', 'link-8');">list_display</a></tt> <tt class="py-op">=</tt> <tt class="py-op">(</tt><tt class="py-string">'id'</tt><tt class="py-op">,</tt><tt class="py-string">'name'</tt><tt class="py-op">,</tt><tt class="py-string">'slug'</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L23"></a><tt class="py-lineno">23</tt>  <tt class="py-line"><tt id="link-25" class="py-name"><a title="semrate.review.admin" class="py-name" href="#" onclick="return doclink('link-25', 'admin', 'link-0');">admin</a></tt><tt class="py-op">.</tt><tt class="py-name">site</tt><tt class="py-op">.</tt><tt class="py-name">register</tt><tt class="py-op">(</tt><tt id="link-26" class="py-name"><a title="semrate.review.models.CategoryParameter" class="py-name" href="#" onclick="return doclink('link-26', 'CategoryParameter', 'link-7');">CategoryParameter</a></tt><tt class="py-op">,</tt> <tt id="link-27" class="py-name" targets="Class semrate.review.admin.CategoryParameterAdmin=semrate.review.admin.CategoryParameterAdmin-class.html"><a title="semrate.review.admin.CategoryParameterAdmin" class="py-name" href="#" onclick="return doclink('link-27', 'CategoryParameterAdmin', 'link-27');">CategoryParameterAdmin</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L24"></a><tt class="py-lineno">24</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="semrate.review-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Sun Jan 15 00:10:41 2012
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>
