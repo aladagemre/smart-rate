@@ -13,6 +13,11 @@ from django.db.models import F
 import json, urllib, urllib2, datetime
 
 def index(request):
+  """
+  This view defined what to show in the index page. These are:
+  Recent tags (ratings) and products
+  """
+  
   recent_tags = Tag.objects.order_by('date')[::-1]
   recent_products = map(lambda tag: tag.parameter.product, recent_tags)
   recent_authors = map(lambda tag: tag.author.user.username, recent_tags)
@@ -39,6 +44,9 @@ def index(request):
   return  HttpResponse(t.render(c))
 
 def searchproduct(request):
+  """
+  Searches for the term given and returns the product results
+  """
   query = request.GET.get('q', '')
   if query:
     qset = (
@@ -55,6 +63,10 @@ def searchproduct(request):
   })
 
 def advanced_search(request):
+	"""
+	Performs advanced search for the given parameters.
+	With the parameters, it narrows down the results.
+	"""
 	category=request.GET.get('category')
 	categories = Category.objects.all()
 	if category:
@@ -89,6 +101,9 @@ def advanced_search(request):
 		
 
 def newproduct(request):
+  """
+  Displays product creation form or evaluates the posted form and saves the contents.
+  """
   if 'submit' in request.POST:
     productform = ProductForm(request.POST)
     if productform.is_valid():
@@ -106,28 +121,11 @@ def newproduct(request):
   return  HttpResponse(t.render(c))
 
 def viewproduct(request, path):
+  """
+  This is for returning the information about a given product. 
+  Returns name, parameter, tag, score information about it.
+  """
   product = Product.objects.get(slug=path)
-  #parameters = Parameter.objects.filter(product=product)
-  ## get abstract category parameter of each parameter. (like screen of iphone -> screen)
-  #parameter_c_values = set(map(lambda p: p.category_parameter, parameters))
-  ## get abstract category parameter of this type of product (cell phone)
-  #category_parameters = set(CategoryParameter.objects.filter(category=product.category))
-  
-  ## see if we have any missing feature for iphone.
-  #lacking_c_parameters = category_parameters - parameter_c_values
-  
-  ## if we have any missing parameter(feature) for iphone then add it.
-  ## for example after creating iphone, you created samsung and added new features to samsung. now you want iphone to have those features too.
-  ## so lets add those missing features:
-  
-  #if lacking_c_parameters:
-    ## for each missing feature
-    #for c_param in lacking_c_parameters:
-      #slug = slugify(c_param.name)
-      #p = Parameter(slug=slug, category_parameter=c_param, product=product, score_total=0, score_count=0)
-      #p.save()
-    
-    ## now get the updated parameter list for iphone. 
   parameters = Parameter.objects.filter(product=product)
 
   score_total = 0
@@ -152,6 +150,9 @@ def viewproduct(request, path):
   return  HttpResponse(t.render(c))
   
 def rate_parameter(request):
+  """
+  Allows rating a given parameter using a given score between 1 and 5.
+  """
   score = int ( request.GET['score'] )
   param_id = int ( request.GET['parameter_id'] )
   param = Parameter.objects.get(id=param_id)
@@ -176,26 +177,14 @@ def rate_parameter(request):
   
   
   return redirect('/products%s' % product.slug)
-"""  
-def ajax_createparameter(request):
-  parameterform = CategoryParameterForm(request.POST)
-  stuff = dir(parameterform)
-  errors = parameterform.errors
-  parameterform.save()
-  return HttpResponse('success')
-"""
+
 def create_parameter(request):
+  """
+  Allows creation of a new parameter for a given product.
+  """
   productslug = request.POST['productslug']
-  print productslug
   product = Product.objects.get(slug=productslug)
   d = copy.deepcopy(request.POST)
-  #del d['product']
-  #product = Product.objects.get(slug=d['productslug'])
-  ##d['slug'] = slugify(d['name'])
-  #parameterform = CategoryParameterForm(d)
-  #stuff = dir(parameterform)
-  #errors = parameterform.errors
-  #parameterform.save()
   param = Parameter(name=d['name'], slug='/'+slugify(d['name']), product=product)
   param.save()
 
@@ -206,11 +195,16 @@ def create_parameter(request):
   return redirect('/products%s' % product.slug)
 
 def ajax_createtag(request):
+  """
+  Allows creation of a new tag using Ajax requests.
+  """
   tagtext = request.POST['tagtext']
   param = Parameter.objects.get(id=request.POST['parameter'])
   if type(request.user) is not AnonymousUser:
     tags_existing = Tag.objects.filter(tagtext=tagtext, author=request.user, parameter=param)
+    # see if the user has used this tag before...
     if tags_existing:
+      # if user has given this tag before for this parameter, return failure. He can't do this!
       return HttpResponse('failure')
 
   d = copy.deepcopy(request.POST)
@@ -219,12 +213,8 @@ def ajax_createtag(request):
   else:
     d['author'] = 1
 
+  # Create a new tag form for saving the tag.
   tagform = TagForm(d)
-  #tag = tagform.save(commit=False)
-  #tag.parameter = Parameter.objects.get(name=request.POST['parametername'])
-  #tag.parameter = Parameter.objects.get(name='monitor')
-  #tagform.parameter = 2 #Parameter.objects.all()[0]
-  #tagform.charge = 1 #Parameter.objects.all()[0]
   user = request.user
   ty = type(user)
 
@@ -232,15 +222,21 @@ def ajax_createtag(request):
   post = request.POST
   tag = tagform.save()
 
+  # Save this activity as the last activity for this product.
   tag.parameter.product.last_activity = request.user.userprofile
   tag.parameter.product.save()
-
-  #raise
+  
+  # if everything is fine so far, we've done!
   return HttpResponse('success')
 
 
 
 def newcategory(request):
+	"""
+	Allows us to create a new category. 
+	If no POST request is done, an empty form is provided for category creation.
+	If POST request is done, a new category is created and the information is saved.
+	"""
 	if 'submit' in request.POST:
 		slug = '/'+slugify(request.POST['name'])
 		d = copy.deepcopy(request.POST)
@@ -260,16 +256,17 @@ def newcategory(request):
 	return  HttpResponse(t.render(c))
 	
 def categories(request):
+	"""
+	Returns the category list
+	"""
 	categories = Category.objects.all()
-
-	t = get_template("categories.html")
-
-	c = RequestContext(request,{
+	return render_to_response("categories.html", {
 		'categories': categories,
 	})
-	return HttpResponse(t.render(c)
-)
 def category(request, slug):
+	"""
+	Displays the product list for a given category.
+	"""
 	category = Category.objects.get(slug=slug)
 	products = Product.objects.filter(category=category)
 	
@@ -287,6 +284,9 @@ from django.views.decorators.csrf import csrf_exempt
 
 @csrf_exempt
 def login(request):
+  """
+  Lets the user to log in
+  """
   username = request.POST['username']
   password = request.POST['password']
   path = request.POST['path']
@@ -297,6 +297,9 @@ def login(request):
   return HttpResponseRedirect(path)
 
 def notable_for(request):
+  """
+  Fetches Freebase representation of a given product.
+  """
   id = request.GET['id']
   #id = "/en/nokia_3210"
   q = { "extended":1, "query": { "id": id, "type": "/common/topic", "notable_for": None } }
@@ -325,6 +328,9 @@ def notable_for(request):
   
   
 def rdf(request, slug):
+	"""
+	Returns RDF representation for the given product.
+	"""
 	print slug
 	product = Product.objects.get(slug=slug)
 	parameters = Parameter.objects.filter(product=product)
@@ -337,6 +343,9 @@ def rdf(request, slug):
 
 @csrf_exempt
 def add_product_fb(request):
+  """
+  Allows product addition using facebook account.
+  """
   fbid = request.POST['fbid']
   fbname = request.POST['fbname']
   fbtype_id = request.POST['fbtype_id']
@@ -369,6 +378,9 @@ def add_product_fb(request):
   
   
 def edit_category(request,slug):
+	"""
+	Lets you edit a category.
+	"""
 	t = get_template('edit_category.html')
 	c = RequestContext(request,{})
 	c['category'] = Category.objects.get(slug=slug)
@@ -377,6 +389,8 @@ def edit_category(request,slug):
 	return  HttpResponse(t.render(c))
  
 def delete_category_parameter(request):
+  """
+  Lets you delete a parameter of a category"""
   category_slug = request.GET['category_slug']
   parameter_slug = request.GET['parameter_slug']
   cat = Category.objects.get(slug=category_slug)
@@ -388,6 +402,9 @@ def delete_category_parameter(request):
   
 @csrf_exempt
 def create_category_parameter(request):
+  """
+  Lets you create a category parameter.
+  """
   category_slug = request.POST['category_slug']
   parameter_name = request.POST['parameter_name']
   parameter_slug = '/'+slugify(parameter_name)
@@ -403,9 +420,15 @@ def create_category_parameter(request):
   return HttpResponseRedirect('/edit_category'+category_slug)
 
 def tag_count_of_user(userprofile):
+  """
+  Counts the tags assigned by a user.
+  """
   return Tag.objects.filter(author=userprofile).count()
 
 def products_rated_of_user(userprofile):
+  """
+  Returns the products rated by a given user.
+  """
   scores = Score.objects.filter(user=userprofile)
   params = [x.param for x in scores]
   products = []
@@ -423,6 +446,10 @@ def products_rated_of_user(userprofile):
   return products
 
 def user(request,username):
+  """
+  Displays information about a given user:
+  Name, photo, tag count, products rated, followers, etc.
+  """
   user_profile = User.objects.get(username	= username)
   t = get_template('user.html')
   c = RequestContext(request,{})
@@ -483,4 +510,3 @@ def fbtest(request):
 			
 	return render_to_response('fbtest.html', context, 
 		context_instance=RequestContext(request))
-
