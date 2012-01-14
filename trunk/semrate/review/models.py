@@ -6,7 +6,10 @@ from member.models import UserProfile
 from django.db.models import Count
 
 class Category(models.Model):
-	"""Category for the products"""
+	"""
+	Category class for the products. Each product might belong to one category.
+	Categories can be Mobile Phones, Automobiles, etc.
+	"""
 	name = models.CharField(max_length=20, unique=True)
 	slug = models.SlugField()
 	creator = models.ForeignKey(UserProfile, related_name='category_creator')
@@ -21,7 +24,9 @@ class Category(models.Model):
         
 
 class CategoryParameter(models.Model):
-	"""This is the abstract category parameter like Screen that belongs to all items from that category."""
+	"""
+	This is the abstract category parameter like Screen that belongs to all items from that category.
+	"""
 	name = models.CharField(max_length=30)
 	slug = models.SlugField()
 	category = models.ForeignKey(Category)
@@ -30,6 +35,9 @@ class CategoryParameter(models.Model):
 		return self.name
 	
 class Product(models.Model):
+  """
+  This is the class for Product or Services that is going to be rated.
+  """
   slug = models.CharField(max_length=32, unique=True)
   name = models.CharField(max_length=32, unique=True)
   description = models.TextField()
@@ -47,45 +55,68 @@ class Product(models.Model):
     return self.name
 
 class Parameter(models.Model):
+  """
+  This is the class for the parameter for a product. Like Screen or Battery.
+  """
   name = models.CharField(max_length=32)
-  # "simple name", 
-  #the name with _ and lowercase, used for ids and stuff
-  slug = models.CharField(max_length=32) 
-  #description = models.TextField()
-  #category_parameter = models.ForeignKey(CategoryParameter)
-  product = models.ForeignKey(Product)
-  score_total = models.IntegerField(default=0)
-  score_count = models.IntegerField(default=0)
+  slug = models.CharField(max_length=32)  # short name
+  product = models.ForeignKey(Product)    # foreign key to product.
+  score_total = models.IntegerField(default=0)		# total scores given by users.
+  score_count = models.IntegerField(default=0)		# total number of votes
+  
   def slug_wo(self):
 	return self.slug[1:]
   
   
   def __str__(self):
+    """
+    String representaton of the parameter.
+    """
     return '%s - %s' % (self.product.name, self.category_parameter.name)
+    
   def get_tags(self):
+    """
+    Returns the tags tagged for this parameter
+    """
     return Tag.objects.filter(parameter = self)
+    
   def get_tags_neg(self):
-    #return Tag.objects.filter(parameter = self, charge=-1)
+    """
+    Returns the negative tags tagged for this parameter
+    """
+
     return Tag.objects.filter(parameter=self, charge=-1).values('tagtext').order_by().annotate(Count('tagtext'))
     
   def get_tags_pos(self):
-    #return Tag.objects.filter(parameter = self, charge=1)
+    """
+    Returns the positive tags tagged for this parameter
+    """
     return Tag.objects.filter(parameter=self, charge=1).values('tagtext').order_by().annotate(Count('tagtext'))
+    
   def get_score(self):
-	if not self.score_count:
-		return '-'
-	return "%.2f" % (float(self.score_total) / self.score_count)
+    """
+    Returns the average score by a simple calculation.
+    """
+    if not self.score_count:
+      return '-'
+    return "%.2f" % (float(self.score_total) / self.score_count)
   
   @property
-  def score(self): return self.get_score()
-	
-  
+  def score(self):
+    """
+    This is just for allowing template to use calculated average score.
+    """
+    return self.get_score()  
 
   def clean_fields(self, exclude=[]):
     self.category_parameter.name = self.category_parameter.name.strip()
     self.slug = self.category_parameter.name.replace(' ','_').lower()
 
 class Tag(models.Model):
+  """
+  This is the tag assignment that is done to the parameters of products. 
+  Each tag has an author(tagger), date, text, charge(+/-) and parameter(tagged object)
+  """
   tagtext = models.CharField(max_length=32)
   charge = models.IntegerField()
   parameter = models.ForeignKey(Parameter)
@@ -96,27 +127,33 @@ class Tag(models.Model):
     return self.tagtext
 
 class ProductForm(forms.ModelForm):
+  """
+  This class provides information about what to show in a product creation form.
+  """
+  
   class Meta:
     model = Product
     exclude = ['slug',]
 
 class CategoryParameterForm(forms.ModelForm):
+  """
+  This class provides information about what to show in a product parameter creation form.
+  """
   class Meta:
-    model = CategoryParameter
-    #exclude = ('sname',)
-    #fields = ('name','description')
-    #fields = ('name', 'category')
-    # I dont get it, when I exclude sname, I also can't use name parameterform.name in the template
-  #description = forms.CharField(widget=forms.Textarea(attrs={'cols': 25, 'rows': 2}))
-  
+    model = CategoryParameter  
   
 class TagForm(forms.ModelForm):
+  """
+  This class provides information about what to show in a Tag creation form.
+  """
   class Meta:
     model = Tag
-  #tagtext = forms.TextField(widget=forms.TextInput(attrs={'class':'taginput'}))
   tagtext = forms.CharField(widget=forms.TextInput(attrs={'class':'taginput', 'value':''}))
 
 class CategoryForm(forms.ModelForm):
+	"""
+	This class provides information about what to show in a category creation form.
+	"""
 	class Meta:
 		model = Category
 		exclude=['slug']
@@ -124,13 +161,9 @@ class CategoryForm(forms.ModelForm):
 # Create your models here.
 
 class Score(models.Model):
+  """
+  This class is for handling number of ratings individually.
+  """
   user = models.ForeignKey(UserProfile)
   value = models.IntegerField()
   param = models.ForeignKey(Parameter)
-  
-import member.models
-class UserProfile(member.models.UserProfile):
-  def get_imgurl(self):
-	return self.username + 'SMTH'
-  
-  pass
