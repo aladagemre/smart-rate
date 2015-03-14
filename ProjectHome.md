@@ -1,0 +1,1 @@
+SemRate allows you to rate anything using tags, scores and facebook comments. Rateable things are obtained from Semantic Resources like Freebase. We provide RDF resources about any rateable item.
